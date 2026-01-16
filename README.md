@@ -5,7 +5,8 @@ Last Updated: January 16th 2026
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Contents:
-- data/
+- data/: data.zip contains: 
+
 	- anes_timeseries_2020_stata_20220210: 2020 ANES Survey retireved from: https://electionstudies.org/data-center/2020-time-series-study/
 
 	- anes_timeseries_2024_stata_20250430: 2024 ANES Survey retrieved from: https://electionstudies.org/data-center/2024-time-series-study/
@@ -34,8 +35,9 @@ Contents:
 Replication Instructions: 
 
 1. Clone this repository
-2. Update cd in each do file to reflect local repo location
-3. Run do files in this order:
+2  Unzip contents of data.zip to data folder
+3. Update cd in each do file to reflect local repo location
+4. Run do files in this order:
 
     1. ANES_Project_01_Prep.do
 	2. ANES_Project_02_Summarize.do
