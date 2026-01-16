@@ -1,0 +1,684 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\Ulric\Documents\Projects\ANES_Paper\logs/ANES_Project_03_Estimate.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}16 Jan 2026, 18:04:44
+{txt}
+{com}.                 use "./data/final_prepped.dta", clear
+{txt}
+{com}. 
+. **********************************************
+. * Initial overview of dataset
+. **********************************************
+.                 describe
+
+{txt}Contains data from {res}./data/final_prepped.dta
+{txt} Observations:{res}         8,947                  
+{txt}    Variables:{res}            28                  16 Jan 2026 18:04
+{txt}{hline}
+Variable      Storage   Display    Value
+    name         type    format    label      Variable label
+{hline}
+{p 0 48}{res}{bind:pre_weight     }{txt}{bind: double  }{bind:%12.0g    }{space 1}{bind:         }{stata "notes list pre_weight":*} {res}Full sample pre-election weight{p_end}
+{p 0 48}{bind:post_weight    }{txt}{bind: double  }{bind:%12.0g    }{space 1}{bind:         }{stata "notes list post_weight":*} {res}Full sample post-election weight{p_end}
+{p 0 48}{bind:pol_attention  }{txt}{bind: double  }{bind:%12.0g    }{space 1}{bind:V201005  }{bind:  }{res}{res}PRE: How often does R pay attention to politics and elections{p_end}
+{p 0 48}{bind:pre_reg        }{txt}{bind: double  }{bind:%12.0g    }{space 1}{txt}prereg_lbl{p_end}
+{p 0 48}{space 44}{bind:  }{res}{res}PRE: SUMMARY: Registration and early vote status{p_end}
+{p 0 48}{bind:dem_thermo     }{txt}{bind: double  }{bind:%12.0g    }{space 1}{bind:V201156  }{bind:  }{res}{res}PRE: Feeling Thermometer: Democratic Party{p_end}
+{p 0 48}{bind:rep_thermo     }{txt}{bind: double  }{bind:%12.0g    }{space 1}{bind:V201157  }{bind:  }{res}{res}PRE: Feeling Thermometer: Republican Party{p_end}
+{p 0 48}{bind:party_id       }{txt}{bind: double  }{bind:%12.0g    }{space 1}{bind:V201231x }{bind:  }{res}{res}PRE: SUMMARY: Party ID{p_end}
+{p 0 48}{bind:age            }{txt}{bind: double  }{bind:%12.0g    }{space 1}{bind:V201507x }{bind:  }{res}{res}PRE: SUMMARY: Respondent age{p_end}
+{p 0 48}{bind:educ           }{txt}{bind: double  }{bind:%12.0g    }{space 1}{bind:V201510  }{bind:  }{res}{res}PRE: Highest level of Education{p_end}
+{p 0 48}{bind:race           }{txt}{bind: double  }{bind:%12.0g    }{space 1}{bind:V201549x }{bind:  }{res}{res}PRE: SUMMARY: R self-identified race/ethnicity{p_end}
+{p 0 48}{bind:female         }{txt}{bind: double  }{bind:%12.0g    }{space 1}{bind:fem_lbl  }{bind:  }{res}{res}PRE: What is your (R) sex? [revised]{p_end}
+{p 0 48}{bind:post_reg       }{txt}{bind: double  }{bind:%12.0g    }{space 1}{txt}postreg_lbl{p_end}
+{p 0 48}{space 44}{bind:  }{res}{res}POST: R registered to vote (post-election){p_end}
+{p 0 48}{bind:voted          }{txt}{bind: double  }{bind:%29.0g    }{space 1}{txt}voted_lbl{p_end}
+{p 0 48}{space 44}{bind:  }{res}{res}POST: Did R vote for President{p_end}
+{p 0 48}{bind:V203001        }{txt}{bind: str2    }{bind:%2s       }{space 1}{bind:         }{bind:  }{res}{res}SAMPLE: Sample location state postal abbreviation{p_end}
+{p 0 48}{bind:state          }{txt}{bind: long    }{bind:%8.0g     }{space 1}{bind:state    }{bind:  }{res}{res}SAMPLE: Sample location state postal abbreviation{p_end}
+{p 0 48}{bind:year           }{txt}{bind: float   }{bind:%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+{p 0 48}{bind:V243001        }{txt}{bind: str2    }{bind:%2s       }{space 1}{bind:         }{bind:  }{res}{res}SAMPLE: Sample location state postal abbreviation{p_end}
+{p 0 48}{bind:fb_freq        }{txt}{bind: double  }{bind:%22.0g    }{space 1}{txt}fb_freq_new{p_end}
+{p 0 48}{space 44}{bind:  }{res}{res}Facebook usage frequency (0=not at all, 7=many times daily){p_end}
+{p 0 48}{bind:x_freq         }{txt}{bind: double  }{bind:%22.0g    }{space 1}{txt}x_freq_new{p_end}
+{p 0 48}{space 44}{bind:  }{res}{res}X usage frequency (0=not at all, 7=many times daily){p_end}
+{p 0 48}{bind:fb_post        }{txt}{bind: double  }{bind:%22.0g    }{space 1}{txt}fb_post_new{p_end}
+{p 0 48}{space 44}{bind:  }{res}{res}Facebook political post frequency (0 = Never/Not a User, 7=Always){p_end}
+{p 0 48}{bind:x_post         }{txt}{bind: double  }{bind:%22.0g    }{space 1}{txt}x_post_new{p_end}
+{p 0 48}{space 44}{bind:  }{res}{res}X political post frequency (0 = Never/Not a User, 7=Always){p_end}
+{p 0 48}{bind:fb_freq_cat    }{txt}{bind: float   }{bind:%29.0g    }{space 1}{txt}freq_cat_lbl{p_end}
+{p 0 48}{space 44}{bind:  }{res}{res}Facebook usage (collapsed categories){p_end}
+{p 0 48}{bind:fb_post_cat    }{txt}{bind: float   }{bind:%35.0g    }{space 1}{txt}post_cat_lbl{p_end}
+{p 0 48}{space 44}{bind:  }{res}{res}Political post frequency (collapsed categories){p_end}
+{p 0 48}{bind:x_freq_cat     }{txt}{bind: float   }{bind:%29.0g    }{space 1}{txt}freq_cat_lbl{p_end}
+{p 0 48}{space 44}{bind:  }{res}{res}X usage (collapsed categories){p_end}
+{p 0 48}{bind:x_post_cat     }{txt}{bind: float   }{bind:%35.0g    }{space 1}{txt}post_cat_lbl{p_end}
+{p 0 48}{space 44}{bind:  }{res}{res}Political post frequency (collapsed categories){p_end}
+{p 0 48}{bind:fb_use         }{txt}{bind: float   }{bind:%19.0g    }{space 1}{txt}fbuse_lbl{p_end}
+{p 0 48}{space 44}{bind:  }{res}{res}Uses Facebook (any frequency){p_end}
+{p 0 48}{bind:x_use          }{txt}{bind: float   }{bind:%12.0g    }{space 1}{bind:xuse_lbl }{bind:  }{res}{res}Uses X (any frequency){p_end}
+{p 0 48}{bind:aff_polar      }{txt}{bind: float   }{bind:%9.0g     }{space 1}{bind:         }{bind:  }{res}{res}{p_end}
+                                            {txt}* indicated variables have notes
+{hline}
+Sorted by: {res}x_freq_cat
+{txt}
+{com}.                 summarize
+
+{txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 2}pre_weight {c |}{res}      8,947    .9590291    .8947705   .0345489   6.932929
+{txt}{space 1}post_weight {c |}{res}      8,947    .9143761    .9048174   .0129779   6.650665
+{txt}pol_attent~n {c |}{res}      8,947    2.223203    .9913139          1          5
+{txt}{space 5}pre_reg {c |}{res}      8,947    .9795462    .1415545          0          1
+{txt}{space 2}dem_thermo {c |}{res}      8,947    46.14921    33.11437         -8        100
+{txt}{hline 13}{c +}{hline 57}
+{space 2}rep_thermo {c |}{res}      8,947    42.49681    33.04785         -8        100
+{txt}{space 4}party_id {c |}{res}      8,947    3.827316    2.338124          1          7
+{txt}{space 9}age {c |}{res}      8,947     53.7426     16.7869         18         80
+{txt}{space 8}educ {c |}{res}      8,947    4.807757    1.987366          1          8
+{txt}{space 8}race {c |}{res}      8,947    1.539399    1.175846          1          6
+{txt}{hline 13}{c +}{hline 57}
+{space 6}female {c |}{res}      8,947    .5396222    .4984555          0          1
+{txt}{space 4}post_reg {c |}{res}      8,947    .9994412    .0236346          0          1
+{txt}{space 7}voted {c |}{res}      8,947    .9882642    .1077003          0          1
+{txt}{space 5}V203001 {c |}{res}          0
+{txt}{space 7}state {c |}{res}      8,947      25.528    14.65881          1         52
+{txt}{hline 13}{c +}{hline 57}
+{space 8}year {c |}{res}      8,947    2021.533    1.944829       2020       2024
+{txt}{space 5}V243001 {c |}{res}          0
+{txt}{space 5}fb_freq {c |}{res}      8,947    3.760031    2.682169          0          7
+{txt}{space 6}x_freq {c |}{res}      8,947    1.031184    1.943717          0          7
+{txt}{space 5}fb_post {c |}{res}      8,947    1.100257    .9190989          0          5
+{txt}{hline 13}{c +}{hline 57}
+{space 6}x_post {c |}{res}      8,947    .4390298    .8178297          0          5
+{txt}{space 1}fb_freq_cat {c |}{res}      8,947    1.907679    1.261555          0          3
+{txt}{space 1}fb_post_cat {c |}{res}      8,947    1.039343    .7643223          0          3
+{txt}{space 2}x_freq_cat {c |}{res}      8,947    .5785179    .9898654          0          3
+{txt}{space 2}x_post_cat {c |}{res}      8,947    .4057226     .686918          0          3
+{txt}{hline 13}{c +}{hline 57}
+{space 6}fb_use {c |}{res}      8,947    .7520957    .4318201          0          1
+{txt}{space 7}x_use {c |}{res}      8,947    .3098245     .462447          0          1
+{txt}{space 3}aff_polar {c |}{res}      8,947    54.36772    28.99706          0        100
+{txt}
+{com}.                 tab fb_freq_cat year
+
+       {txt}Facebook usage {c |}
+           (collapsed {c |}         year
+          categories) {c |}      2020       2024 {c |}     Total
+{hline 22}{c +}{hline 22}{c +}{hline 10}
+           Not at all {c |}{res}     1,273        945 {txt}{c |}{res}     2,218 
+{txt}Infrequent (less than {c |}{res}       593        323 {txt}{c |}{res}       916 
+{txt}               Weekly {c |}{res}       789        498 {txt}{c |}{res}     1,287 
+{txt}        Daily or more {c |}{res}     2,863      1,663 {txt}{c |}{res}     4,526 
+{txt}{hline 22}{c +}{hline 22}{c +}{hline 10}
+                Total {c |}{res}     5,518      3,429 {txt}{c |}{res}     8,947 
+{txt}
+{com}.                 tab x_freq_cat year
+
+   {txt}X usage (collapsed {c |}         year
+          categories) {c |}      2020       2024 {c |}     Total
+{hline 22}{c +}{hline 22}{c +}{hline 10}
+           Not at all {c |}{res}     3,709      2,466 {txt}{c |}{res}     6,175 
+{txt}Infrequent (less than {c |}{res}       818        438 {txt}{c |}{res}     1,256 
+{txt}               Weekly {c |}{res}       410        218 {txt}{c |}{res}       628 
+{txt}        Daily or more {c |}{res}       581        307 {txt}{c |}{res}       888 
+{txt}{hline 22}{c +}{hline 22}{c +}{hline 10}
+                Total {c |}{res}     5,518      3,429 {txt}{c |}{res}     8,947 
+{txt}
+{com}.                 tab voted year
+
+ {txt}POST: Did R vote for {c |}         year
+            President {c |}      2020       2024 {c |}     Total
+{hline 22}{c +}{hline 22}{c +}{hline 10}
+No, didn't vote for P {c |}{res}        72         33 {txt}{c |}{res}       105 
+{txt}Yes, voted for Presid {c |}{res}     5,446      3,396 {txt}{c |}{res}     8,842 
+{txt}{hline 22}{c +}{hline 22}{c +}{hline 10}
+                Total {c |}{res}     5,518      3,429 {txt}{c |}{res}     8,947 
+{txt}
+{com}. 
+. **********************************************
+. * Initial regresson: voter registration
+. **********************************************
+. 
+.                 eststo clear
+{txt}
+{com}. 
+.                 eststo prereg: quietly logit pre_reg fb_use x_use i.year ///
+>                         i.pol_attention i.party_id ///
+>                         i.educ i.state i.race age female ///
+>                         [pw = pre_weight], robust 
+{txt}
+{com}.                         
+.                 eststo prereg_mfx: margins, dydx(fb_use x_use) post
+{res}
+{txt}{col 1}Average marginal effects{col 58}{lalign 13:Number of obs}{col 71} = {res}{ralign 5:8,398}
+{txt}{col 1}Model VCE: {res:Robust}
+
+{txt}{p2colset 1 13 13 2}{...}
+{p2col:Expression:}{res:Pr(pre_reg), predict()}{p_end}
+{p2col:dy/dx wrt:}{res:fb_use x_use}{p_end}
+{p2colreset}{...}
+
+{res}{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26} Delta-method
+{col 14}{c |}      dy/dx{col 26}   std. err.{col 38}      z{col 46}   P>|z|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}fb_use {c |}{col 14}{res}{space 2}  .001709{col 26}{space 2} .0068894{col 37}{space 1}    0.25{col 46}{space 3}0.804{col 54}{space 4}-.0117939{col 67}{space 3}  .015212
+{txt}{space 7}x_use {c |}{col 14}{res}{space 2} .0110757{col 26}{space 2} .0068202{col 37}{space 1}    1.62{col 46}{space 3}0.104{col 54}{space 4}-.0022917{col 67}{space 3}  .024443
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. 
+. **********************************************
+. * Regressions on voting and use
+. **********************************************
+. 
+.         * binary usage, no controls
+.                 eststo vote_binary1: quietly logit voted fb_use x_use i.year ///
+>                         [pw = post_weight], robust
+{txt}
+{com}.                 eststo vote_binary1_mfx: margins, dydx(fb_use x_use) post
+{res}
+{txt}{col 1}Average marginal effects{col 58}{lalign 13:Number of obs}{col 71} = {res}{ralign 5:8,947}
+{txt}{col 1}Model VCE: {res:Robust}
+
+{txt}{p2colset 1 13 13 2}{...}
+{p2col:Expression:}{res:Pr(voted), predict()}{p_end}
+{p2col:dy/dx wrt:}{res:fb_use x_use}{p_end}
+{p2colreset}{...}
+
+{res}{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26} Delta-method
+{col 14}{c |}      dy/dx{col 26}   std. err.{col 38}      z{col 46}   P>|z|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}fb_use {c |}{col 14}{res}{space 2} .0012951{col 26}{space 2} .0043854{col 37}{space 1}    0.30{col 46}{space 3}0.768{col 54}{space 4}-.0073001{col 67}{space 3} .0098903
+{txt}{space 7}x_use {c |}{col 14}{res}{space 2} .0137337{col 26}{space 2} .0062503{col 37}{space 1}    2.20{col 46}{space 3}0.028{col 54}{space 4} .0014834{col 67}{space 3}  .025984
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+.         * binary usage + political controls
+.                 eststo vote_binary2: quietly logit voted fb_use x_use i.year ///
+>                         i.pol_attention i.party_id ///
+>                         [pw = post_weight], robust
+{txt}
+{com}.                 eststo vote_binary2_mfx: margins, dydx(fb_use x_use) post
+{res}
+{txt}{col 1}Average marginal effects{col 58}{lalign 13:Number of obs}{col 71} = {res}{ralign 5:8,947}
+{txt}{col 1}Model VCE: {res:Robust}
+
+{txt}{p2colset 1 13 13 2}{...}
+{p2col:Expression:}{res:Pr(voted), predict()}{p_end}
+{p2col:dy/dx wrt:}{res:fb_use x_use}{p_end}
+{p2colreset}{...}
+
+{res}{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26} Delta-method
+{col 14}{c |}      dy/dx{col 26}   std. err.{col 38}      z{col 46}   P>|z|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}fb_use {c |}{col 14}{res}{space 2} .0014047{col 26}{space 2} .0045063{col 37}{space 1}    0.31{col 46}{space 3}0.755{col 54}{space 4}-.0074275{col 67}{space 3} .0102369
+{txt}{space 7}x_use {c |}{col 14}{res}{space 2} .0140067{col 26}{space 2} .0065327{col 37}{space 1}    2.14{col 46}{space 3}0.032{col 54}{space 4} .0012029{col 67}{space 3} .0268105
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+.         * Binary usage + full controls
+.                 eststo vote_binary3: quietly logit voted fb_use x_use i.year ///
+>                         i.pol_attention i.party_id ///
+>                         i.educ i.state i.race age female ///
+>                         [pw = post_weight], robust
+{txt}
+{com}.                 eststo vote_binary3_mfx: margins, dydx(fb_use x_use) post
+{res}
+{txt}{col 1}Average marginal effects{col 58}{lalign 13:Number of obs}{col 71} = {res}{ralign 5:7,255}
+{txt}{col 1}Model VCE: {res:Robust}
+
+{txt}{p2colset 1 13 13 2}{...}
+{p2col:Expression:}{res:Pr(voted), predict()}{p_end}
+{p2col:dy/dx wrt:}{res:fb_use x_use}{p_end}
+{p2colreset}{...}
+
+{res}{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26} Delta-method
+{col 14}{c |}      dy/dx{col 26}   std. err.{col 38}      z{col 46}   P>|z|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}fb_use {c |}{col 14}{res}{space 2} .0023274{col 26}{space 2} .0050884{col 37}{space 1}    0.46{col 46}{space 3}0.647{col 54}{space 4}-.0076457{col 67}{space 3} .0123004
+{txt}{space 7}x_use {c |}{col 14}{res}{space 2} .0167855{col 26}{space 2} .0078704{col 37}{space 1}    2.13{col 46}{space 3}0.033{col 54}{space 4} .0013598{col 67}{space 3} .0322113
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. 
+. **********************************************
+. * Regressions on voting and frequency of use
+. **********************************************
+. 
+.         * collapsed frequency + political controls
+.                 eststo vote_freq1: quietly logit voted i.fb_freq_cat i.x_freq_cat i.year ///
+>                         i.pol_attention i.party_id ///
+>                 [pw = post_weight], robust
+{txt}
+{com}.                 eststo vote_freq1_mfx: margins, dydx(i.fb_freq_cat i.x_freq_cat) post
+{res}
+{txt}{col 1}Average marginal effects{col 58}{lalign 13:Number of obs}{col 71} = {res}{ralign 5:8,947}
+{txt}{col 1}Model VCE: {res:Robust}
+
+{txt}{p2colset 1 13 13 2}{...}
+{p2col:Expression:}{res:Pr(voted), predict()}{p_end}
+{p2col:dy/dx wrt:}{res:1.fb_freq_cat 2.fb_freq_cat 3.fb_freq_cat 1.x_freq_cat 2.x_freq_cat 3.x_freq_cat}{p_end}
+{p2colreset}{...}
+
+{res}{txt}{hline 31}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 32}{c |}{col 44} Delta-method
+{col 32}{c |}      dy/dx{col 44}   std. err.{col 56}      z{col 64}   P>|z|{col 72}     [95% con{col 85}f. interval]
+{hline 31}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 19}fb_freq_cat {c |}
+Infrequent (less than weekly)  {c |}{col 32}{res}{space 2} .0111263{col 44}{space 2} .0047026{col 55}{space 1}    2.37{col 64}{space 3}0.018{col 72}{space 4} .0019094{col 85}{space 3} .0203432
+{txt}{space 23}Weekly  {c |}{col 32}{res}{space 2} .0050736{col 44}{space 2} .0055782{col 55}{space 1}    0.91{col 64}{space 3}0.363{col 72}{space 4}-.0058594{col 85}{space 3} .0160067
+{txt}{space 16}Daily or more  {c |}{col 32}{res}{space 2}-.0021384{col 44}{space 2} .0052972{col 55}{space 1}   -0.40{col 64}{space 3}0.686{col 72}{space 4}-.0125207{col 85}{space 3}  .008244
+{txt}{space 30} {c |}
+{space 20}x_freq_cat {c |}
+Infrequent (less than weekly)  {c |}{col 32}{res}{space 2} .0163155{col 44}{space 2} .0034915{col 55}{space 1}    4.67{col 64}{space 3}0.000{col 72}{space 4} .0094722{col 85}{space 3} .0231588
+{txt}{space 23}Weekly  {c |}{col 32}{res}{space 2} .0147373{col 44}{space 2} .0041245{col 55}{space 1}    3.57{col 64}{space 3}0.000{col 72}{space 4} .0066534{col 85}{space 3} .0228212
+{txt}{space 16}Daily or more  {c |}{col 32}{res}{space 2} .0037573{col 44}{space 2} .0089029{col 55}{space 1}    0.42{col 64}{space 3}0.673{col 72}{space 4}-.0136921{col 85}{space 3} .0212067
+{txt}{hline 31}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{p 0 6 0 96}Note: dy/dx for factor levels is the discrete change from the base level.{txt}{p_end}
+{res}{txt}
+{com}. 
+.         * testing joint significance
+.                 quietly logit voted i.fb_freq_cat i.x_freq_cat i.year ///
+>                         i.pol_attention i.party_id ///
+>                         [pw = post_weight], robust
+{txt}
+{com}.                 testparm i.fb_freq_cat
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}[voted]1.fb_freq_cat = 0{p_end}
+{p 0 7}{space 1}{text:( 2)}{space 1} [voted]2.fb_freq_cat = 0{p_end}
+{p 0 7}{space 1}{text:( 3)}{space 1} [voted]3.fb_freq_cat = 0{p_end}
+
+{txt}{col 12}chi2(  3) ={res}    6.12
+{txt}{col 10}Prob > chi2 =  {res}  0.1058
+{txt}
+{com}.                 testparm i.x_freq_cat
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}[voted]1.x_freq_cat = 0{p_end}
+{p 0 7}{space 1}{text:( 2)}{space 1} [voted]2.x_freq_cat = 0{p_end}
+{p 0 7}{space 1}{text:( 3)}{space 1} [voted]3.x_freq_cat = 0{p_end}
+
+{txt}{col 12}chi2(  3) ={res}   12.99
+{txt}{col 10}Prob > chi2 =  {res}  0.0047
+{txt}
+{com}. 
+.         * collapsed frequency + full controls
+.                 eststo vote_freq2: quietly logit voted i.fb_freq_cat i.x_freq_cat i.year ///
+>                         i.pol_attention i.party_id ///
+>                         i.educ i.state i.race age female ///
+>                         [pw = post_weight], robust
+{txt}
+{com}.                 eststo vote_freq2_mfx: margins, dydx(i.fb_freq_cat i.x_freq_cat) post
+{res}
+{txt}{col 1}Average marginal effects{col 58}{lalign 13:Number of obs}{col 71} = {res}{ralign 5:7,255}
+{txt}{col 1}Model VCE: {res:Robust}
+
+{txt}{p2colset 1 13 13 2}{...}
+{p2col:Expression:}{res:Pr(voted), predict()}{p_end}
+{p2col:dy/dx wrt:}{res:1.fb_freq_cat 2.fb_freq_cat 3.fb_freq_cat 1.x_freq_cat 2.x_freq_cat 3.x_freq_cat}{p_end}
+{p2colreset}{...}
+
+{res}{txt}{hline 31}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 32}{c |}{col 44} Delta-method
+{col 32}{c |}      dy/dx{col 44}   std. err.{col 56}      z{col 64}   P>|z|{col 72}     [95% con{col 85}f. interval]
+{hline 31}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 19}fb_freq_cat {c |}
+Infrequent (less than weekly)  {c |}{col 32}{res}{space 2} .0133305{col 44}{space 2} .0058626{col 55}{space 1}    2.27{col 64}{space 3}0.023{col 72}{space 4} .0018401{col 85}{space 3}  .024821
+{txt}{space 23}Weekly  {c |}{col 32}{res}{space 2} .0067171{col 44}{space 2} .0063511{col 55}{space 1}    1.06{col 64}{space 3}0.290{col 72}{space 4}-.0057308{col 85}{space 3}  .019165
+{txt}{space 16}Daily or more  {c |}{col 32}{res}{space 2}-.0013118{col 44}{space 2} .0059019{col 55}{space 1}   -0.22{col 64}{space 3}0.824{col 72}{space 4}-.0128793{col 85}{space 3} .0102556
+{txt}{space 30} {c |}
+{space 20}x_freq_cat {c |}
+Infrequent (less than weekly)  {c |}{col 32}{res}{space 2} .0200473{col 44}{space 2} .0041479{col 55}{space 1}    4.83{col 64}{space 3}0.000{col 72}{space 4} .0119176{col 85}{space 3}  .028177
+{txt}{space 23}Weekly  {c |}{col 32}{res}{space 2}  .017667{col 44}{space 2} .0053578{col 55}{space 1}    3.30{col 64}{space 3}0.001{col 72}{space 4} .0071659{col 85}{space 3} .0281681
+{txt}{space 16}Daily or more  {c |}{col 32}{res}{space 2} .0036341{col 44}{space 2} .0106898{col 55}{space 1}    0.34{col 64}{space 3}0.734{col 72}{space 4}-.0173175{col 85}{space 3} .0245858
+{txt}{hline 31}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{p 0 6 0 96}Note: dy/dx for factor levels is the discrete change from the base level.{txt}{p_end}
+{res}{txt}
+{com}. 
+.         * testing joint significance
+.                 quietly logit voted i.fb_freq_cat i.x_freq_cat i.year ///
+>                         i.pol_attention i.party_id ///
+>                         i.educ i.state i.race age female ///
+>                         [pw = post_weight], robust
+{txt}
+{com}.                 testparm i.fb_freq_cat
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}[voted]1.fb_freq_cat = 0{p_end}
+{p 0 7}{space 1}{text:( 2)}{space 1} [voted]2.fb_freq_cat = 0{p_end}
+{p 0 7}{space 1}{text:( 3)}{space 1} [voted]3.fb_freq_cat = 0{p_end}
+
+{txt}{col 12}chi2(  3) ={res}    5.56
+{txt}{col 10}Prob > chi2 =  {res}  0.1350
+{txt}
+{com}.                 testparm i.x_freq_cat
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}[voted]1.x_freq_cat = 0{p_end}
+{p 0 7}{space 1}{text:( 2)}{space 1} [voted]2.x_freq_cat = 0{p_end}
+{p 0 7}{space 1}{text:( 3)}{space 1} [voted]3.x_freq_cat = 0{p_end}
+
+{txt}{col 12}chi2(  3) ={res}   13.17
+{txt}{col 10}Prob > chi2 =  {res}  0.0043
+{txt}
+{com}. 
+. 
+. **********************************************
+. * Year x Use Interactions
+. **********************************************
+. 
+.         * interaction with binary usage
+.                 eststo vote_interact: quietly logit voted i.year##i.fb_use i.year##i.x_use ///
+>                         i.pol_attention i.party_id ///
+>                         i.educ i.state i.race age female ///
+>                 [pw = post_weight], robust
+{txt}
+{com}. 
+.         * testing joint significance
+.                 testparm i.year#i.fb_use
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}[voted]2024.year#1.fb_use = 0{p_end}
+
+{txt}{col 12}chi2(  1) ={res}    1.64
+{txt}{col 10}Prob > chi2 =  {res}  0.2000
+{txt}
+{com}.                 testparm i.year#i.x_use
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}[voted]2024.year#1.x_use = 0{p_end}
+
+{txt}{col 12}chi2(  1) ={res}    0.01
+{txt}{col 10}Prob > chi2 =  {res}  0.9038
+{txt}
+{com}. 
+.         * marginal effects by year
+.                 margins year, dydx(fb_use)
+{res}
+{txt}{col 1}Average marginal effects{col 58}{lalign 13:Number of obs}{col 71} = {res}{ralign 5:7,255}
+{txt}{col 1}Model VCE: {res:Robust}
+
+{txt}{p2colset 1 13 13 2}{...}
+{p2col:Expression:}{res:Pr(voted), predict()}{p_end}
+{p2col:dy/dx wrt:}{res:1.fb_use}{p_end}
+{p2colreset}{...}
+
+{res}{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26} Delta-method
+{col 14}{c |}      dy/dx{col 26}   std. err.{col 38}      z{col 46}   P>|z|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}{res}0.fb_use    {col 14}{txt}{c |}  (base outcome)
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}1.fb_use     {txt}{c |}
+{space 8}year {c |}
+{space 7}2020  {c |}{col 14}{res}{space 2}  .007099{col 26}{space 2} .0072827{col 37}{space 1}    0.97{col 46}{space 3}0.330{col 54}{space 4}-.0071749{col 67}{space 3} .0213729
+{txt}{space 7}2024  {c |}{col 14}{res}{space 2}-.0053893{col 26}{space 2} .0063641{col 37}{space 1}   -0.85{col 46}{space 3}0.397{col 54}{space 4}-.0178626{col 67}{space 3}  .007084
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{p 0 6 0 78}Note: dy/dx for factor levels is the discrete change from the base level.{txt}{p_end}
+{res}{txt}
+{com}.                 eststo fb_by_year: margins year, dydx(fb_use) post
+{res}
+{txt}{col 1}Average marginal effects{col 58}{lalign 13:Number of obs}{col 71} = {res}{ralign 5:7,255}
+{txt}{col 1}Model VCE: {res:Robust}
+
+{txt}{p2colset 1 13 13 2}{...}
+{p2col:Expression:}{res:Pr(voted), predict()}{p_end}
+{p2col:dy/dx wrt:}{res:1.fb_use}{p_end}
+{p2colreset}{...}
+
+{res}{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26} Delta-method
+{col 14}{c |}      dy/dx{col 26}   std. err.{col 38}      z{col 46}   P>|z|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}{res}0.fb_use    {col 14}{txt}{c |}  (base outcome)
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}1.fb_use     {txt}{c |}
+{space 8}year {c |}
+{space 7}2020  {c |}{col 14}{res}{space 2}  .007099{col 26}{space 2} .0072827{col 37}{space 1}    0.97{col 46}{space 3}0.330{col 54}{space 4}-.0071749{col 67}{space 3} .0213729
+{txt}{space 7}2024  {c |}{col 14}{res}{space 2}-.0053893{col 26}{space 2} .0063641{col 37}{space 1}   -0.85{col 46}{space 3}0.397{col 54}{space 4}-.0178626{col 67}{space 3}  .007084
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{p 0 6 0 78}Note: dy/dx for factor levels is the discrete change from the base level.{txt}{p_end}
+{res}{txt}
+{com}. 
+.                 quietly logit voted i.year##i.fb_use i.year##i.x_use ///
+>                         i.pol_attention i.party_id ///
+>                         i.educ i.state i.race age female ///
+>                         [pw = post_weight], robust
+{txt}
+{com}.     
+.                 margins year, dydx(x_use)
+{res}
+{txt}{col 1}Average marginal effects{col 58}{lalign 13:Number of obs}{col 71} = {res}{ralign 5:7,255}
+{txt}{col 1}Model VCE: {res:Robust}
+
+{txt}{p2colset 1 13 13 2}{...}
+{p2col:Expression:}{res:Pr(voted), predict()}{p_end}
+{p2col:dy/dx wrt:}{res:1.x_use}{p_end}
+{p2colreset}{...}
+
+{res}{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26} Delta-method
+{col 14}{c |}      dy/dx{col 26}   std. err.{col 38}      z{col 46}   P>|z|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}{res}0.x_use     {col 14}{txt}{c |}  (base outcome)
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}1.x_use      {txt}{c |}
+{space 8}year {c |}
+{space 7}2020  {c |}{col 14}{res}{space 2} .0154084{col 26}{space 2} .0076137{col 37}{space 1}    2.02{col 46}{space 3}0.043{col 54}{space 4} .0004859{col 67}{space 3} .0303309
+{txt}{space 7}2024  {c |}{col 14}{res}{space 2} .0120578{col 26}{space 2}  .006575{col 37}{space 1}    1.83{col 46}{space 3}0.067{col 54}{space 4} -.000829{col 67}{space 3} .0249445
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{p 0 6 0 78}Note: dy/dx for factor levels is the discrete change from the base level.{txt}{p_end}
+{res}{txt}
+{com}.                 eststo x_by_year: margins year, dydx(x_use) post
+{res}
+{txt}{col 1}Average marginal effects{col 58}{lalign 13:Number of obs}{col 71} = {res}{ralign 5:7,255}
+{txt}{col 1}Model VCE: {res:Robust}
+
+{txt}{p2colset 1 13 13 2}{...}
+{p2col:Expression:}{res:Pr(voted), predict()}{p_end}
+{p2col:dy/dx wrt:}{res:1.x_use}{p_end}
+{p2colreset}{...}
+
+{res}{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26} Delta-method
+{col 14}{c |}      dy/dx{col 26}   std. err.{col 38}      z{col 46}   P>|z|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}{res}0.x_use     {col 14}{txt}{c |}  (base outcome)
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}1.x_use      {txt}{c |}
+{space 8}year {c |}
+{space 7}2020  {c |}{col 14}{res}{space 2} .0154084{col 26}{space 2} .0076137{col 37}{space 1}    2.02{col 46}{space 3}0.043{col 54}{space 4} .0004859{col 67}{space 3} .0303309
+{txt}{space 7}2024  {c |}{col 14}{res}{space 2} .0120578{col 26}{space 2}  .006575{col 37}{space 1}    1.83{col 46}{space 3}0.067{col 54}{space 4} -.000829{col 67}{space 3} .0249445
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{p 0 6 0 78}Note: dy/dx for factor levels is the discrete change from the base level.{txt}{p_end}
+{res}{txt}
+{com}. 
+.         * getting predicted probabilities for visualization
+.                 quietly logit voted i.year##i.fb_use i.year##i.x_use ///
+>                         i.pol_attention i.party_id ///
+>                         i.educ i.state i.race age female ///
+>                 [pw = post_weight], robust
+{txt}
+{com}. 
+.                 margins year#fb_use
+{res}
+{txt}{col 1}Predictive margins{col 58}{lalign 13:Number of obs}{col 71} = {res}{ralign 5:7,255}
+{txt}{col 1}Model VCE: {res:Robust}
+
+{txt}{p2colset 1 13 13 2}{...}
+{p2col:Expression:}{res:Pr(voted), predict()}{p_end}
+{p2colreset}{...}
+
+{res}{txt}{hline 26}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 27}{c |}{col 39} Delta-method
+{col 27}{c |}     Margin{col 39}   std. err.{col 51}      z{col 59}   P>|z|{col 67}     [95% con{col 80}f. interval]
+{hline 26}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 14}year#fb_use {c |}
+2020#Not a Facebook user  {c |}{col 27}{res}{space 2} .9725163{col 39}{space 2} .0069033{col 50}{space 1}  140.88{col 59}{space 3}0.000{col 67}{space 4}  .958986{col 80}{space 3} .9860466
+{txt}{space 6}2020#Facebook User  {c |}{col 27}{res}{space 2} .9796153{col 39}{space 2} .0035828{col 50}{space 1}  273.43{col 59}{space 3}0.000{col 67}{space 4} .9725932{col 80}{space 3} .9866374
+{txt}2024#Not a Facebook user  {c |}{col 27}{res}{space 2} .9882049{col 39}{space 2} .0046021{col 50}{space 1}  214.73{col 59}{space 3}0.000{col 67}{space 4} .9791849{col 80}{space 3} .9972249
+{txt}{space 6}2024#Facebook User  {c |}{col 27}{res}{space 2} .9828156{col 39}{space 2} .0050887{col 50}{space 1}  193.14{col 59}{space 3}0.000{col 67}{space 4} .9728419{col 80}{space 3} .9927893
+{txt}{hline 26}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}.                 marginsplot, ///
+>                         title("Facebook Usage and Voting Probability by Year") ///
+>                         ytitle("Predicted Probability of Voting") ///
+>                         xlabel(2020 2024) ///
+>                         legend(order(1 "Non-user" 2 "User"))
+{res}
+{text}{p 0 0 2}Variables that uniquely identify margins: {bf:year fb_use}{p_end}
+{res}{txt}
+{com}.                 graph export "./results/fb_interact.png", replace
+{txt}{p 0 4 2}
+file {bf}
+./results/fb_interact.png{rm}
+saved as
+PNG
+format
+{p_end}
+
+{com}. 
+.                 margins year#x_use
+{res}
+{txt}{col 1}Predictive margins{col 58}{lalign 13:Number of obs}{col 71} = {res}{ralign 5:7,255}
+{txt}{col 1}Model VCE: {res:Robust}
+
+{txt}{p2colset 1 13 13 2}{...}
+{p2col:Expression:}{res:Pr(voted), predict()}{p_end}
+{p2colreset}{...}
+
+{res}{txt}{hline 19}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 20}{c |}{col 32} Delta-method
+{col 20}{c |}     Margin{col 32}   std. err.{col 44}      z{col 52}   P>|z|{col 60}     [95% con{col 73}f. interval]
+{hline 19}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}year#x_use {c |}
+2020#Not a X user  {c |}{col 20}{res}{space 2} .9727099{col 32}{space 2} .0047774{col 43}{space 1}  203.60{col 52}{space 3}0.000{col 60}{space 4} .9633463{col 73}{space 3} .9820735
+{txt}{space 6}2020#X user  {c |}{col 20}{res}{space 2} .9881183{col 32}{space 2} .0053786{col 43}{space 1}  183.71{col 52}{space 3}0.000{col 60}{space 4} .9775765{col 73}{space 3} .9986601
+{txt}2024#Not a X user  {c |}{col 20}{res}{space 2} .9801761{col 32}{space 2} .0054901{col 43}{space 1}  178.54{col 52}{space 3}0.000{col 60}{space 4} .9694158{col 73}{space 3} .9909365
+{txt}{space 6}2024#X user  {c |}{col 20}{res}{space 2} .9922339{col 32}{space 2} .0043761{col 43}{space 1}  226.74{col 52}{space 3}0.000{col 60}{space 4} .9836568{col 73}{space 3} 1.000811
+{txt}{hline 19}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}.                 marginsplot, ///
+>                         title("X Usage and Voting Probability by Year") ///
+>                         ytitle("Predicted Probability of Voting") ///
+>                         xlabel(2020 2024) ///
+>                         legend(order(1 "Non-user" 2 "User"))
+{res}
+{text}{p 0 0 2}Variables that uniquely identify margins: {bf:year x_use}{p_end}
+{res}{txt}
+{com}.                 graph export "./results/x_interact.png", replace
+{txt}{p 0 4 2}
+file {bf}
+./results/x_interact.png{rm}
+saved as
+PNG
+format
+{p_end}
+
+{com}. 
+. 
+. 
+. 
+. **********************************************
+. * Year x Frequency Interactions
+. **********************************************
+. 
+.                 eststo vote_freq_interact: quietly logit voted i.year##i.x_freq_cat ///
+>                         i.fb_freq_cat i.pol_attention i.party_id ///
+>                         i.educ i.state i.race age female ///
+>                         [pw = post_weight], robust
+{txt}
+{com}. 
+.         * testing interaction
+.                 testparm i.year#i.x_freq_cat
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}[voted]2024.year#1.x_freq_cat = 0{p_end}
+{p 0 7}{space 1}{text:( 2)}{space 1} [voted]2024.year#2.x_freq_cat = 0{p_end}
+{p 0 7}{space 1}{text:( 3)}{space 1} [voted]2024.year#3.x_freq_cat = 0{p_end}
+
+{txt}{col 12}chi2(  3) ={res}    0.88
+{txt}{col 10}Prob > chi2 =  {res}  0.8291
+{txt}
+{com}. 
+.         * marginal effects of X frequency by year
+.                 margins year, dydx(i.x_freq_cat)
+{res}
+{txt}{col 1}Average marginal effects{col 58}{lalign 13:Number of obs}{col 71} = {res}{ralign 5:7,255}
+{txt}{col 1}Model VCE: {res:Robust}
+
+{txt}{p2colset 1 13 13 2}{...}
+{p2col:Expression:}{res:Pr(voted), predict()}{p_end}
+{p2col:dy/dx wrt:}{res:1.x_freq_cat 2.x_freq_cat 3.x_freq_cat}{p_end}
+{p2colreset}{...}
+
+{res}{txt}{hline 14}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 15}{c |}{col 27} Delta-method
+{col 15}{c |}      dy/dx{col 27}   std. err.{col 39}      z{col 47}   P>|z|{col 55}     [95% con{col 68}f. interval]
+{hline 14}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}{res}0.x_freq_cat {col 15}{txt}{c |}  (base outcome)
+{hline 14}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}1.x_freq_cat  {txt}{c |}
+{space 9}year {c |}
+{space 8}2020  {c |}{col 15}{res}{space 2} .0217483{col 27}{space 2} .0054767{col 38}{space 1}    3.97{col 47}{space 3}0.000{col 55}{space 4} .0110141{col 68}{space 3} .0324825
+{txt}{space 8}2024  {c |}{col 15}{res}{space 2} .0166763{col 27}{space 2} .0057865{col 38}{space 1}    2.88{col 47}{space 3}0.004{col 55}{space 4} .0053349{col 68}{space 3} .0280177
+{txt}{hline 14}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}2.x_freq_cat  {txt}{c |}
+{space 9}year {c |}
+{space 8}2020  {c |}{col 15}{res}{space 2}  .021762{col 27}{space 2} .0060262{col 38}{space 1}    3.61{col 47}{space 3}0.000{col 55}{space 4} .0099508{col 68}{space 3} .0335731
+{txt}{space 8}2024  {c |}{col 15}{res}{space 2} .0084673{col 27}{space 2} .0114485{col 38}{space 1}    0.74{col 47}{space 3}0.460{col 55}{space 4}-.0139714{col 68}{space 3}  .030906
+{txt}{hline 14}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}3.x_freq_cat  {txt}{c |}
+{space 9}year {c |}
+{space 8}2020  {c |}{col 15}{res}{space 2} .0036242{col 27}{space 2} .0144622{col 38}{space 1}    0.25{col 47}{space 3}0.802{col 55}{space 4}-.0247212{col 68}{space 3} .0319695
+{txt}{space 8}2024  {c |}{col 15}{res}{space 2} .0038644{col 27}{space 2} .0121657{col 38}{space 1}    0.32{col 47}{space 3}0.751{col 55}{space 4}  -.01998{col 68}{space 3} .0277087
+{txt}{hline 14}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{p 0 6 0 79}Note: dy/dx for factor levels is the discrete change from the base level.{txt}{p_end}
+{res}{txt}
+{com}. 
+. **********************************************
+. * Exporting Tables
+. **********************************************
+. 
+.         * Table 4: main results - binary usage
+.                 esttab vote_binary1_mfx vote_binary2_mfx vote_binary3_mfx ///
+>                         using "./results/tab4_main_binary.tex", replace ///
+>                         star(* 0.10 ** 0.05 *** 0.01) ///
+>                         b(3) se(3) ///
+>                         stats(N, fmt(%9.0fc) labels("Observations")) ///
+>                         title("Effect of Social Media Usage on Voting (Average Marginal Effects)") ///
+>                         mtitles("Base" "Political" "Full") ///
+>                         coeflabels(fb_use "Facebook User" x_use "X User") ///
+>                         booktabs ///
+>                         note("Standard errors in parentheses. * p$<$0.10, ** p$<$0.05, *** p$<$0.01. Base model includes year fixed effect. Political controls add political attention and party identification. Full controls add education, race, state fixed effects, age, and sex.")
+{res}{txt}(output written to {browse  `"./results/tab4_main_binary.tex"'})
+
+{com}. 
+.         * Table 5: frequency results
+.         esttab vote_freq1_mfx vote_freq2_mfx ///
+>                 using "./results/tab5_frequency.tex", replace ///
+>                 star(* 0.10 ** 0.05 *** 0.01) ///
+>                 b(3) se(3) ///
+>                 stats(N, fmt(%9.0fc) labels("Observations")) ///
+>                 title("Social Media Usage Frequency and Voter Turnout") ///
+>                 mtitles("Political Controls" "Full Controls") ///
+>                 coeflabels(1.fb_freq_cat "Facebook: Infrequent" ///
+>                                    2.fb_freq_cat "Facebook: Weekly" ///
+>                                    3.fb_freq_cat "Facebook: Daily+" ///
+>                                    1.x_freq_cat "X: Infrequent" ///
+>                                    2.x_freq_cat "X: Weekly" ///
+>                                    3.x_freq_cat "X: Daily+") ///
+>                 booktabs ///
+>                 addnotes("Average marginal effects from logit models." ///
+>              "Reference category: Non-users of each platform." ///
+>              "Infrequent = less than weekly; Weekly = 1-4 times/week; Daily+ = once or more per day." ///
+>              "\textit{c -(}Political Controls{c )-}: year FE, political attention, party identification." ///
+>              "\textit{c -(}Full Controls{c )-}: adds age, sex, education, race, and state fixed effects." ///
+>              "Standard errors in parentheses. * p\$<\$0.10, ** p\$<\$0.05, *** p\$<\$0.01")
+{res}{txt}(output written to {browse  `"./results/tab5_frequency.tex"'})
+
+{com}. 
+. capture log close
+{smcl}
+{com}{sf}{ul off}

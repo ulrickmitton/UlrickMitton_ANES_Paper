@@ -1,0 +1,699 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\Ulric\Documents\Projects\ANES_Paper\logs/ANES_Project_01_Prep.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}16 Jan 2026, 18:04:41
+{txt}
+{com}. 
+. ************************************************
+. * Preparing 2020 data for append
+. ************************************************
+.         
+.                 use "./data/anes_timeseries_2020_stata_20220210.dta", clear
+{txt}
+{com}.   
+.         *  dropping unecessary variables
+.            keep V201025x V202051 V202072 V201156 V201157  V202542 V202543 V202544  ///
+>            V202545 V201600 V201507x V201549x V201507x V203001 V201510 V201231x V201549x ///
+>            V201005 V200010a V200010b
+{txt}
+{com}.            
+.         * renaming variables
+.            rename V201025x pre_reg
+{res}{txt}
+{com}.            rename V202051 post_reg
+{res}{txt}
+{com}.            rename V202072 voted
+{res}{txt}
+{com}.            rename V201231x party_id
+{res}{txt}
+{com}.            rename V201156 dem_thermo
+{res}{txt}
+{com}.            rename V201157 rep_thermo
+{res}{txt}
+{com}.            rename V202542 fb_freq
+{res}{txt}
+{com}.            rename V202543 fb_post
+{res}{txt}
+{com}.            rename V202544 x_freq
+{res}{txt}
+{com}.            rename V202545 x_post
+{res}{txt}
+{com}.            rename V201005 pol_attention
+{res}{txt}
+{com}.            rename V201600 female
+{res}{txt}
+{com}.            rename V201507x age
+{res}{txt}
+{com}.            encode V203001, generate(state)
+{txt}
+{com}.            rename V201510 educ
+{res}{txt}
+{com}.            rename V201549x race
+{res}{txt}
+{com}.            rename V200010a pre_weight
+{res}{txt}
+{com}.            rename V200010b post_weight
+{res}{txt}
+{com}.            
+.         * dropping missing/unknown/refused
+.                 drop if pre_reg == -4 
+{txt}(1 observation deleted)
+
+{com}.                 drop if post_reg == -9 | post_reg == -7 | post_reg == -6
+{txt}(835 observations deleted)
+
+{com}.                 drop if voted == -9 | voted == -1
+{txt}(1,416 observations deleted)
+
+{com}.                 drop if missing(dem_thermo) | dem_thermo == -9 | dem_thermo == 998
+{txt}(80 observations deleted)
+
+{com}.                 drop if missing(rep_thermo) | rep_thermo == -9 | rep_thermo == 998
+{txt}(27 observations deleted)
+
+{com}.                 drop if party_id == -8 | party_id == -9
+{txt}(4 observations deleted)
+
+{com}.                 drop if pol_attention == -1 | pol_attention == -9
+{txt}(1 observation deleted)
+
+{com}.                 drop if age < 0
+{txt}(215 observations deleted)
+
+{com}.                 drop if inlist(educ, -1, -8, -9, 95)
+{txt}(74 observations deleted)
+
+{com}.                 drop if inlist(race, -8, -9)
+{txt}(23 observations deleted)
+
+{com}.                 drop if inlist(female, -4, -8, -9)
+{txt}(11 observations deleted)
+
+{com}.                 drop if fb_freq < -1
+{txt}(67 observations deleted)
+
+{com}.                 drop if fb_post < -1
+{txt}(5 observations deleted)
+
+{com}.                 drop if x_freq < -1
+{txt}(2 observations deleted)
+
+{com}.                 drop if x_post < -1
+{txt}(1 observation deleted)
+
+{com}.          
+.          * recoding binary variables
+.            replace pre_reg = 0 if inlist(pre_reg, 1, 2)
+{txt}(129 real changes made)
+
+{com}.            replace pre_reg = 1 if inlist(pre_reg, 3, 4)
+{txt}(5,389 real changes made)
+
+{com}.            label define prereg_lbl ///
+>            0 "No" ///
+>            1 "Yes"
+{txt}
+{com}.            label values pre_reg prereg_lbl
+{txt}
+{com}.            
+.            replace post_reg = 0 if post_reg == 3
+{txt}(3 real changes made)
+
+{com}.            replace post_reg = 1 if inlist(post_reg, -1, 1, 2)
+{txt}(5,422 real changes made)
+
+{com}.            label define postreg_lbl ///
+>            0 "No" ///
+>            1 "Yes"
+{txt}
+{com}.            label values post_reg postreg_lbl
+{txt}
+{com}.            
+.            replace voted = 0 if voted == 2
+{txt}(72 real changes made)
+
+{com}.            label define voted_lbl ///
+>            0 "No, didn't vote for President" ///
+>            1 "Yes, voted for President"
+{txt}
+{com}.            label values voted voted_lbl
+{txt}
+{com}.            
+.         * generating year variable
+.            generate year = 2020
+{txt}
+{com}.            save "./data/2020_prepped.dta", replace
+{txt}{p 0 4 2}
+file {bf}
+./data/2020_prepped.dta{rm}
+saved
+{p_end}
+
+{com}. 
+. ************************************************
+. * Preparing 2024 data for append
+. ************************************************
+.         
+.                 use "./data/anes_timeseries_2024_stata_20250430", clear
+{txt}
+{com}.    
+.         * dropping unecessary variables
+.            keep V241012 V242051 V242066 V241227x V241166 V241167 V242578 V242579 V242580 V242581 ///
+>            V241004 V241550 V243001 V241463 V241458x V241501x V240107a V240107b
+{txt}
+{com}.            
+.         * renaming variables
+.            rename V241012 pre_reg
+{res}{txt}
+{com}.            rename V242051 post_reg
+{res}{txt}
+{com}.            rename V242066 voted
+{res}{txt}
+{com}.            rename V241227x party_id
+{res}{txt}
+{com}.            rename V241166 dem_thermo
+{res}{txt}
+{com}.            rename V241167 rep_thermo
+{res}{txt}
+{com}.            rename V242578 fb_freq
+{res}{txt}
+{com}.            rename V242579 fb_post
+{res}{txt}
+{com}.            rename V242580 x_freq
+{res}{txt}
+{com}.            rename V242581 x_post
+{res}{txt}
+{com}.            rename V241004 pol_attention
+{res}{txt}
+{com}.            rename V241550 female
+{res}{txt}
+{com}.            rename V241458x age
+{res}{txt}
+{com}.            encode V243001, generate(state)
+{txt}
+{com}.            rename V241463 educ
+{res}{txt}
+{com}.            rename V241501x race
+{res}{txt}
+{com}.            rename V240107a pre_weight
+{res}{txt}
+{com}.            rename V240107b post_weight
+{res}{txt}
+{com}.                 
+.         * dropping missing/unknown/refused
+.                 drop if inlist(pre_reg, -8, -1)
+{txt}(275 observations deleted)
+
+{com}.                 drop if inlist(post_reg, -9, -7, -6)
+{txt}(510 observations deleted)
+
+{com}.                 drop if inlist(voted, -9, -1)
+{txt}(982 observations deleted)
+
+{com}.                 drop if missing(dem_thermo) | dem_thermo == -9 | dem_thermo == 998
+{txt}(8 observations deleted)
+
+{com}.                 drop if missing(rep_thermo) | rep_thermo == -9 | rep_thermo == 998
+{txt}(1 observation deleted)
+
+{com}.                 drop if inlist(party_id, -8, -9)
+{txt}(9 observations deleted)
+
+{com}.                 drop if inlist(pol_attention, -1, -9)
+{txt}(0 observations deleted)
+
+{com}.                 drop if age < 0
+{txt}(170 observations deleted)
+
+{com}.                 drop if inlist(educ, -1, -8, -9, 95)
+{txt}(49 observations deleted)
+
+{com}.                 drop if inlist(race, -8, -9)
+{txt}(19 observations deleted)
+
+{com}.                 drop if inlist(female, -4, -8, -9)
+{txt}(11 observations deleted)
+
+{com}.                 drop if fb_freq < -1
+{txt}(56 observations deleted)
+
+{com}.                 drop if fb_post < -1
+{txt}(0 observations deleted)
+
+{com}.                 drop if x_freq < -1
+{txt}(2 observations deleted)
+
+{com}.                 drop if x_post < -1
+{txt}(0 observations deleted)
+
+{com}.                 
+.         * recoding binary variables
+.            replace pre_reg = 0 if pre_reg == 2
+{txt}(54 real changes made)
+
+{com}.            label define prereg_lbl ///
+>            0 "No" ////
+>            1 "Yes"
+{txt}
+{com}.            label values pre_reg prereg_lbl
+{txt}
+{com}.            
+.            replace post_reg = 0 if post_reg == 2
+{txt}(2 real changes made)
+
+{com}.            replace post_reg = 1 if post_reg == -1
+{txt}(3,375 real changes made)
+
+{com}.            label define postreg_lbl ///
+>            0 "No" ////
+>            1 "Yes"
+{txt}
+{com}.            label values post_reg postreg_lbl
+{txt}
+{com}.            
+.            replace voted = 0 if voted == 2
+{txt}(33 real changes made)
+
+{com}.            label define voted_lbl ///
+>            0 "No, didn't vote for President" ////
+>            1 "Yes, voted for President"
+{txt}
+{com}.            label values voted voted_lbl
+{txt}
+{com}.            
+.         * recoding education variable
+.           replace educ = 1 if educ < 9
+{txt}(98 real changes made)
+
+{com}.           replace educ = 2 if educ == 9
+{txt}(493 real changes made)
+
+{com}.           replace educ = 3 if educ == 10
+{txt}(581 real changes made)
+
+{com}.           replace educ = 4 if educ == 11
+{txt}(263 real changes made)
+
+{com}.           replace educ = 5 if educ == 12
+{txt}(209 real changes made)
+
+{com}.           replace educ = 6 if educ == 13
+{txt}(989 real changes made)
+
+{com}.           replace educ = 7 if educ == 14
+{txt}(595 real changes made)
+
+{com}.           replace educ = 8 if educ > 14
+{txt}(200 real changes made)
+
+{com}.         * generating year variable
+.            generate year = 2024
+{txt}
+{com}.            save "./data/2024_prepped.dta", replace
+{txt}{p 0 4 2}
+file {bf}
+./data/2024_prepped.dta{rm}
+saved
+{p_end}
+
+{com}.         
+. 
+. ************************************************
+. * Appending .dta files and recoding variables
+. ************************************************
+. 
+.                 use "./data/2020_prepped.dta", clear
+{txt}
+{com}.                 append using "./data/2024_prepped.dta"
+{txt}(label {bf:{txt}voted_lbl} already defined)
+(label {bf:{txt}postreg_lbl} already defined)
+(label {bf:{txt}prereg_lbl} already defined)
+(label {bf:{txt}state} already defined)
+
+{com}.   
+.          * recoding use and post frequency variables
+.                 recode fb_freq ///
+>                         (-1=0 "Not at all") ///
+>                         (7=1 "Less than once a month") ///
+>                         (6=2 "Once or twice a month") ///
+>                         (5=3 "About once a week") ///
+>                         (4=4 "A few times each week") ///
+>                         (3=5 "About once a day") ///
+>                         (2=6 "A few times every day") ///
+>                         (1=7 "Many times every day"), ///
+>                         gen(fb_freq_new)
+{txt}(8,065 differences between {bf:fb_freq} and {bf:fb_freq_new})
+
+{com}.                    
+.                 recode x_freq ///
+>                         (-1=0 "Not at all") ///
+>                         (7=1 "Less than once a month") ///
+>                         (6=2 "Once or twice a month") ///
+>                         (5=3 "About once a week") ///
+>                         (4=4 "A few times each week") ///
+>                         (3=5 "About once a day") ///
+>                         (2=6 "A few times every day") ///
+>                         (1=7 "Many times every day"), ///
+>                         gen(x_freq_new)
+{txt}(8,597 differences between {bf:x_freq} and {bf:x_freq_new})
+
+{com}.                         
+.                 recode fb_post ///
+>                         (-1=0 "Not a user") ///
+>                         (5=1 "User, but never posts") ///
+>                         (4=2 "Sometimes") ///
+>                         (3=3 "About half of the time") ///
+>                         (2=4 "Most of the time") ///
+>                         (1=5 "Always"), ///
+>                         gen(fb_post_new)
+{txt}(8,708 differences between {bf:fb_post} and {bf:fb_post_new})
+
+{com}.                         
+.                 recode x_post ///
+>                         (-1=0 "Not a user") ///
+>                         (5=1 "User, but never posts") ///
+>                         (4=2 "Sometimes") ///
+>                         (3=3 "About half of the time") ///
+>                         (2=4 "Most of the time") ///
+>                         (1=5 "Always"), ///
+>                         gen(x_post_new)
+{txt}(8,867 differences between {bf:x_post} and {bf:x_post_new})
+
+{com}. 
+.                 drop fb_freq x_freq fb_post x_post
+{txt}
+{com}.                 rename fb_freq_new fb_freq
+{res}{txt}
+{com}.                 rename x_freq_new x_freq
+{res}{txt}
+{com}.                 rename fb_post_new fb_post
+{res}{txt}
+{com}.                 rename x_post_new x_post
+{res}{txt}
+{com}. 
+.         * adding labels
+.                 label variable fb_freq "Facebook usage frequency (0=not at all, 7=many times daily)"
+{txt}
+{com}.                 label variable x_freq "X usage frequency (0=not at all, 7=many times daily)"
+{txt}
+{com}.                 label variable fb_post "Facebook political post frequency (0 = Never/Not a User, 7=Always)"
+{txt}
+{com}.                 label variable x_post "X political post frequency (0 = Never/Not a User, 7=Always)"
+{txt}
+{com}.         
+. 
+. ************************************************
+. * Creating collapsed frequency catergories 
+. ************************************************
+. * creating collapsed frequency categories for cleaner analysis
+. * 0 = Not at all, 1 = Infrequent (less than weekly), 
+. * 2 = Weekly, 3 = Daily or more
+. ************************************************
+. 
+.         * generating collapsed frequency variables
+.                 gen fb_freq_cat = .
+{txt}(8,947 missing values generated)
+
+{com}.                 replace fb_freq_cat = 0 if fb_freq == 0  // Not at all
+{txt}(2,218 real changes made)
+
+{com}.                 replace fb_freq_cat = 1 if inrange(fb_freq, 1, 2)  // Less than once a month, once or twice a month
+{txt}(916 real changes made)
+
+{com}.                 replace fb_freq_cat = 2 if inrange(fb_freq, 3, 4)  // About once a week, few times each week
+{txt}(1,287 real changes made)
+
+{com}.                 replace fb_freq_cat = 3 if inrange(fb_freq, 5, 7)  // About once a day or more
+{txt}(4,526 real changes made)
+
+{com}.                         
+.                 gen fb_post_cat = .
+{txt}(8,947 missing values generated)
+
+{com}.                 replace fb_post_cat = 0 if fb_post == 0 // Non-user
+{txt}(2,218 real changes made)
+
+{com}.                 replace fb_post_cat = 1 if fb_post == 1 // Never posts (but is user)
+{txt}(4,385 real changes made)
+
+{com}.                 replace fb_post_cat = 2 if inrange(fb_post, 2, 3) // Sometimes/about half
+{txt}(2,118 real changes made)
+
+{com}.                 replace fb_post_cat = 3 if inrange(fb_post, 4, 5) // Most of time/always
+{txt}(226 real changes made)
+
+{com}.                         
+.                         
+.                 gen x_freq_cat = .
+{txt}(8,947 missing values generated)
+
+{com}.                 replace x_freq_cat = 0 if x_freq == 0 // Not at all
+{txt}(6,175 real changes made)
+
+{com}.                 replace x_freq_cat = 1 if inrange(x_freq, 1, 2) // Less than once a month, once or twice a month
+{txt}(1,256 real changes made)
+
+{com}.                 replace x_freq_cat = 2 if inrange(x_freq, 3, 4) // About once a week, few times each week
+{txt}(628 real changes made)
+
+{com}.                 replace x_freq_cat = 3 if inrange(x_freq, 5, 7) // About once a day or more
+{txt}(888 real changes made)
+
+{com}.                         
+.                 gen x_post_cat = .
+{txt}(8,947 missing values generated)
+
+{com}.                 replace x_post_cat = 0 if x_post == 0  // Non-user
+{txt}(6,175 real changes made)
+
+{com}.                 replace x_post_cat = 1 if x_post == 1  // Never posts (but is user)
+{txt}(2,088 real changes made)
+
+{com}.                 replace x_post_cat = 2 if inrange(x_post, 2, 3)  // Sometimes/about half
+{txt}(510 real changes made)
+
+{com}.                 replace x_post_cat = 3 if inrange(x_post, 4, 5)  // Most of time/always
+{txt}(174 real changes made)
+
+{com}.                         
+.         * labeling variables
+.                 label define freq_cat_lbl ///
+>                         0 "Not at all" ///
+>                         1 "Infrequent (less than weekly)" ///
+>                         2 "Weekly" ///
+>                         3 "Daily or more"
+{txt}
+{com}.                                 
+.                 label define post_cat_lbl ///
+>                         0 "Non-user/Never posts" ///
+>                         1 "User, never posts political content" ///
+>                         2 "Occasional political posting" ///
+>                         3 "Frequent political posting"
+{txt}
+{com}.                                 
+.                 label values fb_freq_cat freq_cat_lbl
+{txt}
+{com}.                 label variable fb_freq_cat "Facebook usage (collapsed categories)"
+{txt}
+{com}.                 label values fb_post_cat post_cat_lbl
+{txt}
+{com}.                 label variable fb_post_cat "Political post frequency (collapsed categories)"
+{txt}
+{com}.                 
+.                 label values x_freq_cat freq_cat_lbl
+{txt}
+{com}.                 label variable x_freq_cat "X usage (collapsed categories)"
+{txt}
+{com}.                 label values x_post_cat post_cat_lbl
+{txt}
+{com}.                 label variable x_post_cat "Political post frequency (collapsed categories)"
+{txt}
+{com}. 
+.         * verification
+.                 tab fb_freq fb_freq_cat, missing
+
+       {txt}Facebook usage {c |}
+  frequency (0=not at {c |}
+    all, 7=many times {c |}    Facebook usage (collapsed categories)
+               daily) {c |} Not at al  Infrequen     Weekly  Daily or  {c |}     Total
+{hline 22}{c +}{hline 44}{c +}{hline 10}
+           Not at all {c |}{res}     2,218          0          0          0 {txt}{c |}{res}     2,218 
+{txt}Less than once a mont {c |}{res}         0        543          0          0 {txt}{c |}{res}       543 
+{txt}Once or twice a month {c |}{res}         0        373          0          0 {txt}{c |}{res}       373 
+{txt}    About once a week {c |}{res}         0          0        405          0 {txt}{c |}{res}       405 
+{txt}A few times each week {c |}{res}         0          0        882          0 {txt}{c |}{res}       882 
+{txt}     About once a day {c |}{res}         0          0          0      1,116 {txt}{c |}{res}     1,116 
+{txt}A few times every day {c |}{res}         0          0          0      1,841 {txt}{c |}{res}     1,841 
+{txt} Many times every day {c |}{res}         0          0          0      1,569 {txt}{c |}{res}     1,569 
+{txt}{hline 22}{c +}{hline 44}{c +}{hline 10}
+                Total {c |}{res}     2,218        916      1,287      4,526 {txt}{c |}{res}     8,947 
+{txt}
+{com}.                 tab x_freq x_freq_cat, missing
+
+    {txt}X usage frequency {c |}
+(0=not at all, 7=many {c |}       X usage (collapsed categories)
+         times daily) {c |} Not at al  Infrequen     Weekly  Daily or  {c |}     Total
+{hline 22}{c +}{hline 44}{c +}{hline 10}
+           Not at all {c |}{res}     6,175          0          0          0 {txt}{c |}{res}     6,175 
+{txt}Less than once a mont {c |}{res}         0        868          0          0 {txt}{c |}{res}       868 
+{txt}Once or twice a month {c |}{res}         0        388          0          0 {txt}{c |}{res}       388 
+{txt}    About once a week {c |}{res}         0          0        278          0 {txt}{c |}{res}       278 
+{txt}A few times each week {c |}{res}         0          0        350          0 {txt}{c |}{res}       350 
+{txt}     About once a day {c |}{res}         0          0          0        281 {txt}{c |}{res}       281 
+{txt}A few times every day {c |}{res}         0          0          0        306 {txt}{c |}{res}       306 
+{txt} Many times every day {c |}{res}         0          0          0        301 {txt}{c |}{res}       301 
+{txt}{hline 22}{c +}{hline 44}{c +}{hline 10}
+                Total {c |}{res}     6,175      1,256        628        888 {txt}{c |}{res}     8,947 
+{txt}
+{com}.                 tab fb_freq_cat
+
+    {txt}Facebook usage (collapsed {c |}
+                  categories) {c |}      Freq.     Percent        Cum.
+{hline 30}{c +}{hline 35}
+                   Not at all {c |}{res}      2,218       24.79       24.79
+{txt}Infrequent (less than weekly) {c |}{res}        916       10.24       35.03
+{txt}                       Weekly {c |}{res}      1,287       14.38       49.41
+{txt}                Daily or more {c |}{res}      4,526       50.59      100.00
+{txt}{hline 30}{c +}{hline 35}
+                        Total {c |}{res}      8,947      100.00
+{txt}
+{com}.                 tab x_freq_cat
+
+           {txt}X usage (collapsed {c |}
+                  categories) {c |}      Freq.     Percent        Cum.
+{hline 30}{c +}{hline 35}
+                   Not at all {c |}{res}      6,175       69.02       69.02
+{txt}Infrequent (less than weekly) {c |}{res}      1,256       14.04       83.06
+{txt}                       Weekly {c |}{res}        628        7.02       90.07
+{txt}                Daily or more {c |}{res}        888        9.93      100.00
+{txt}{hline 30}{c +}{hline 35}
+                        Total {c |}{res}      8,947      100.00
+{txt}
+{com}.                 bysort fb_freq_cat: summ fb_freq
+
+{txt}{hline}
+-> fb_freq_cat = Not at all
+
+    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 5}fb_freq {c |}{res}      2,218           0           0          0          0
+
+{txt}{hline}
+-> fb_freq_cat = Infrequent (less than weekly)
+
+    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 5}fb_freq {c |}{res}        916    1.407205    .4915821          1          2
+
+{txt}{hline}
+-> fb_freq_cat = Weekly
+
+    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 5}fb_freq {c |}{res}      1,287    3.685315    .4645709          3          4
+
+{txt}{hline}
+-> fb_freq_cat = Daily or more
+
+    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 5}fb_freq {c |}{res}      4,526    6.100088    .7637737          5          7
+
+{txt}
+{com}.                 bysort x_freq_cat: summ x_freq
+
+{txt}{hline}
+-> x_freq_cat = Not at all
+
+    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 6}x_freq {c |}{res}      6,175           0           0          0          0
+
+{txt}{hline}
+-> x_freq_cat = Infrequent (less than weekly)
+
+    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 6}x_freq {c |}{res}      1,256    1.308917     .462231          1          2
+
+{txt}{hline}
+-> x_freq_cat = Weekly
+
+    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 6}x_freq {c |}{res}        628    3.557325    .4970989          3          4
+
+{txt}{hline}
+-> x_freq_cat = Daily or more
+
+    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 6}x_freq {c |}{res}        888    6.022523    .8097138          5          7
+
+{txt}
+{com}.                 
+. ************************************************
+. * Creating and labeling binary variables
+. ************************************************
+. 
+.                 gen fb_use = (fb_freq > 0) if !missing(fb_freq)
+{txt}
+{com}.                 label variable fb_use "Uses Facebook (any frequency)"
+{txt}
+{com}.                 label define fbuse_lbl 0 "Not a Facebook user" 1 "Facebook User"
+{txt}
+{com}.                 label values fb_use fbuse_lbl
+{txt}
+{com}. 
+.                 gen x_use = (x_freq > 0) if !missing(x_freq)    
+{txt}
+{com}.                 label variable x_use "Uses X (any frequency)"
+{txt}
+{com}.                 label define xuse_lbl 0 "Not a X user" 1 "X user"
+{txt}
+{com}.                 label values x_use xuse_lbl
+{txt}
+{com}. 
+.         * coding gender dummy
+.            replace female = female - 1
+{txt}(8,947 real changes made)
+
+{com}.            label define fem_lbl ///
+>            0 "Male" ///
+>            1 "Female"
+{txt}
+{com}.            label values female fem_lbl
+{txt}
+{com}.    
+. *************************************************
+. * Creating polarization variable
+. *************************************************
+. * measures absolute difference in feeling thermometers
+. * higher values = greater difference in party evaluations
+. *************************************************
+. 
+.            gen aff_polar = . 
+{txt}(8,947 missing values generated)
+
+{com}.            replace aff_polar = abs(dem_thermo - rep_thermo) if inlist(party_id, 1,2,3,4)  // Democrats and Independents
+{txt}(5,073 real changes made)
+
+{com}.            replace aff_polar = abs(rep_thermo - dem_thermo) if inlist(party_id, 5,6,7)  // Republicans
+{txt}(3,874 real changes made)
+
+{com}.                    
+. *************************************************
+. * Saving dataset
+. *************************************************
+.                 save "./data/final_prepped.dta", replace
+{txt}{p 0 4 2}
+file {bf}
+./data/final_prepped.dta{rm}
+saved
+{p_end}
+
+{com}.                 capture log close 
+{smcl}
+{com}{sf}{ul off}

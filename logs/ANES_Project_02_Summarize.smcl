@@ -1,0 +1,615 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\Ulric\Documents\Projects\ANES_Paper\logs/ANES_Project_02_Summarize.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}16 Jan 2026, 18:04:42
+{txt}
+{com}.             use "./data/final_prepped.dta", clear
+{txt}
+{com}. 
+. ************************************************
+. * Generating coded age variable for summary stats
+. ************************************************
+. 
+.                 egen age_group = cut(age), at(18, 24, 40, 56, 75, 81) label
+{txt}
+{com}.                 label define age_lbl ///
+>                 0 "18–23 (Gen Z)" ///
+>                 1 "24–39 (Millennials)" ///
+>                 2 "40–55 (Gen X)" ///
+>                 3 "56–74 (Boomers)" ///
+>                 4 "75–80+ (Silent+)"
+{txt}
+{com}.                 label values age_group age_lbl
+{txt}
+{com}.   
+. ************************************************
+. * Tabulating summary statistics for coded variables
+. ************************************************
+.   
+.         * tabulating variables
+.                 tabulate voted, generate(v)
+
+         {txt}POST: Did R vote for {c |}
+                    President {c |}      Freq.     Percent        Cum.
+{hline 30}{c +}{hline 35}
+No, didn't vote for President {c |}{res}        105        1.17        1.17
+{txt}     Yes, voted for President {c |}{res}      8,842       98.83      100.00
+{txt}{hline 30}{c +}{hline 35}
+                        Total {c |}{res}      8,947      100.00
+{txt}
+{com}.                 tabulate pre_reg, generate(pre)
+
+       {txt}PRE: {c |}
+   SUMMARY: {c |}
+Registratio {c |}
+n and early {c |}
+vote status {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+         No {c |}{res}        183        2.05        2.05
+{txt}        Yes {c |}{res}      8,764       97.95      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      8,947      100.00
+{txt}
+{com}.                 tabulate post_reg, generate(post)
+
+    {txt}POST: R {c |}
+ registered {c |}
+    to vote {c |}
+(post-elect {c |}
+       ion) {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+         No {c |}{res}          5        0.06        0.06
+{txt}        Yes {c |}{res}      8,942       99.94      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      8,947      100.00
+{txt}
+{com}.                 tabulate party_id, generate(p)
+
+       {txt}PRE: SUMMARY: Party ID {c |}      Freq.     Percent        Cum.
+{hline 30}{c +}{hline 35}
+           1. Strong Democrat {c |}{res}      2,395       26.77       26.77
+{txt}  2. Not very strong Democrat {c |}{res}        996       11.13       37.90
+{txt}      3. Independent-Democrat {c |}{res}      1,125       12.57       50.48
+{txt}               4. Independent {c |}{res}        557        6.23       56.70
+{txt}    5. Independent-Republican {c |}{res}        984       11.00       67.70
+{txt}6. Not very strong Republican {c |}{res}        897       10.03       77.72
+{txt}         7. Strong Republican {c |}{res}      1,993       22.28      100.00
+{txt}{hline 30}{c +}{hline 35}
+                        Total {c |}{res}      8,947      100.00
+{txt}
+{com}.                 tabulate pol_attention, generate(pol)
+
+ {txt}PRE: How often does R {c |}
+      pay attention to {c |}
+politics and elections {c |}      Freq.     Percent        Cum.
+{hline 23}{c +}{hline 35}
+             1. Always {c |}{res}      2,252       25.17       25.17
+{txt}   2. Most of the time {c |}{res}      3,765       42.08       67.25
+{txt}3. About half the time {c |}{res}      1,660       18.55       85.81
+{txt}   4. Some of the time {c |}{res}      1,221       13.65       99.45
+{txt}              5. Never {c |}{res}         49        0.55      100.00
+{txt}{hline 23}{c +}{hline 35}
+                 Total {c |}{res}      8,947      100.00
+{txt}
+{com}.                 tabulate educ, generate(e) 
+
+        {txt}PRE: Highest level of Education {c |}      Freq.     Percent        Cum.
+{hline 40}{c +}{hline 35}
+    1. Less than high school credential {c |}{res}        251        2.81        2.81
+{txt}2.  High school graduate - High school  {c |}{res}      1,226       13.70       16.51
+{txt}          3. Some college but no degree {c |}{res}      1,712       19.13       35.64
+{txt}4. Associate degree in college - occupa {c |}{res}        660        7.38       43.02
+{txt}5. Associate degree in college - academ {c |}{res}        565        6.31       49.33
+{txt} 6. Bachelor's degree (e.g. BA, AB, BS) {c |}{res}      2,537       28.36       77.69
+{txt}7. Master's degree (e.g. MA, MS, MEng,  {c |}{res}      1,479       16.53       94.22
+{txt}8. Professional school degree (e.g. MD, {c |}{res}        517        5.78      100.00
+{txt}{hline 40}{c +}{hline 35}
+                                  Total {c |}{res}      8,947      100.00
+{txt}
+{com}.                 tabulate race, generate(r) 
+
+        {txt}PRE: SUMMARY: R self-identified {c |}
+                         race/ethnicity {c |}      Freq.     Percent        Cum.
+{hline 40}{c +}{hline 35}
+                 1. White, non-Hispanic {c |}{res}      6,862       76.70       76.70
+{txt}                 2. Black, non-Hispanic {c |}{res}        708        7.91       84.61
+{txt}                            3. Hispanic {c |}{res}        696        7.78       92.39
+{txt}4. Asian or Native Hawaiian/other Pacif {c |}{res}        283        3.16       95.55
+{txt}5. Native American/Alaska Native or oth {c |}{res}        113        1.26       96.81
+{txt}        6. Multiple races, non-Hispanic {c |}{res}        285        3.19      100.00
+{txt}{hline 40}{c +}{hline 35}
+                                  Total {c |}{res}      8,947      100.00
+{txt}
+{com}.                 tabulate female, generate(f)  
+
+  {txt}PRE: What {c |}
+is your (R) {c |}
+       sex? {c |}
+  [revised] {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+       Male {c |}{res}      4,119       46.04       46.04
+{txt}     Female {c |}{res}      4,828       53.96      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      8,947      100.00
+{txt}
+{com}.                 tabulate fb_freq, generate(fb) 
+
+        {txt}Facebook usage {c |}
+   frequency (0=not at {c |}
+     all, 7=many times {c |}
+                daily) {c |}      Freq.     Percent        Cum.
+{hline 23}{c +}{hline 35}
+            Not at all {c |}{res}      2,218       24.79       24.79
+{txt}Less than once a month {c |}{res}        543        6.07       30.86
+{txt} Once or twice a month {c |}{res}        373        4.17       35.03
+{txt}     About once a week {c |}{res}        405        4.53       39.56
+{txt} A few times each week {c |}{res}        882        9.86       49.41
+{txt}      About once a day {c |}{res}      1,116       12.47       61.89
+{txt} A few times every day {c |}{res}      1,841       20.58       82.46
+{txt}  Many times every day {c |}{res}      1,569       17.54      100.00
+{txt}{hline 23}{c +}{hline 35}
+                 Total {c |}{res}      8,947      100.00
+{txt}
+{com}.                 tabulate fb_freq_cat, generate(fbc) 
+
+    {txt}Facebook usage (collapsed {c |}
+                  categories) {c |}      Freq.     Percent        Cum.
+{hline 30}{c +}{hline 35}
+                   Not at all {c |}{res}      2,218       24.79       24.79
+{txt}Infrequent (less than weekly) {c |}{res}        916       10.24       35.03
+{txt}                       Weekly {c |}{res}      1,287       14.38       49.41
+{txt}                Daily or more {c |}{res}      4,526       50.59      100.00
+{txt}{hline 30}{c +}{hline 35}
+                        Total {c |}{res}      8,947      100.00
+{txt}
+{com}.                 tabulate fb_use, generate(fbu) 
+
+ {txt}Uses Facebook (any {c |}
+         frequency) {c |}      Freq.     Percent        Cum.
+{hline 20}{c +}{hline 35}
+Not a Facebook user {c |}{res}      2,218       24.79       24.79
+{txt}      Facebook User {c |}{res}      6,729       75.21      100.00
+{txt}{hline 20}{c +}{hline 35}
+              Total {c |}{res}      8,947      100.00
+{txt}
+{com}.                 tabulate x_freq, generate(tw)
+
+     {txt}X usage frequency {c |}
+ (0=not at all, 7=many {c |}
+          times daily) {c |}      Freq.     Percent        Cum.
+{hline 23}{c +}{hline 35}
+            Not at all {c |}{res}      6,175       69.02       69.02
+{txt}Less than once a month {c |}{res}        868        9.70       78.72
+{txt} Once or twice a month {c |}{res}        388        4.34       83.06
+{txt}     About once a week {c |}{res}        278        3.11       86.16
+{txt} A few times each week {c |}{res}        350        3.91       90.07
+{txt}      About once a day {c |}{res}        281        3.14       93.22
+{txt} A few times every day {c |}{res}        306        3.42       96.64
+{txt}  Many times every day {c |}{res}        301        3.36      100.00
+{txt}{hline 23}{c +}{hline 35}
+                 Total {c |}{res}      8,947      100.00
+{txt}
+{com}.                 tabulate x_freq_cat, generate(xfc) 
+
+           {txt}X usage (collapsed {c |}
+                  categories) {c |}      Freq.     Percent        Cum.
+{hline 30}{c +}{hline 35}
+                   Not at all {c |}{res}      6,175       69.02       69.02
+{txt}Infrequent (less than weekly) {c |}{res}      1,256       14.04       83.06
+{txt}                       Weekly {c |}{res}        628        7.02       90.07
+{txt}                Daily or more {c |}{res}        888        9.93      100.00
+{txt}{hline 30}{c +}{hline 35}
+                        Total {c |}{res}      8,947      100.00
+{txt}
+{com}.                 tabulate x_use, generate(xu) 
+
+ {txt}Uses X (any {c |}
+  frequency) {c |}      Freq.     Percent        Cum.
+{hline 13}{c +}{hline 35}
+Not a X user {c |}{res}      6,175       69.02       69.02
+{txt}      X user {c |}{res}      2,772       30.98      100.00
+{txt}{hline 13}{c +}{hline 35}
+       Total {c |}{res}      8,947      100.00
+{txt}
+{com}.                 tabulate age_group, generate(a) 
+
+          {txt}age_group {c |}      Freq.     Percent        Cum.
+{hline 20}{c +}{hline 35}
+      18–23 (Gen Z) {c |}{res}        246        2.75        2.75
+{txt}24–39 (Millennials) {c |}{res}      1,980       22.13       24.88
+{txt}      40–55 (Gen X) {c |}{res}      2,282       25.51       50.39
+{txt}    56–74 (Boomers) {c |}{res}      3,375       37.72       88.11
+{txt}   75–80+ (Silent+) {c |}{res}      1,064       11.89      100.00
+{txt}{hline 20}{c +}{hline 35}
+              Total {c |}{res}      8,947      100.00
+{txt}
+{com}.                 tabulate year, generate(y)
+
+       {txt}year {c |}      Freq.     Percent        Cum.
+{hline 12}{c +}{hline 35}
+       2020 {c |}{res}      5,518       61.67       61.67
+{txt}       2024 {c |}{res}      3,429       38.33      100.00
+{txt}{hline 12}{c +}{hline 35}
+      Total {c |}{res}      8,947      100.00
+{txt}
+{com}.                 
+.         * storing variables
+.                 eststo sum_vote: estpost summarize v1-v2
+
+{txt}{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(sum_w)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(Var)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}{space 1}{ralign 9:e(min)}{space 1}{space 1}{ralign 9:e(max)}{space 1}{space 1}{ralign 9:e(sum)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:v1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .0117358}}}{space 1}{space 1}{ralign 9:{res:{sf: .0115993}}}{space 1}{space 1}{ralign 9:{res:{sf: .1077003}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      105}}}{space 1}
+{space 0}{space 0}{ralign 12:v2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .9882642}}}{space 1}{space 1}{ralign 9:{res:{sf: .0115993}}}{space 1}{space 1}{ralign 9:{res:{sf: .1077003}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     8842}}}{space 1}
+
+{com}.                 eststo sum_pre: estpost summarize pre1-pre2
+
+{txt}{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(sum_w)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(Var)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}{space 1}{ralign 9:e(min)}{space 1}{space 1}{ralign 9:e(max)}{space 1}{space 1}{ralign 9:e(sum)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:pre1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .0204538}}}{space 1}{space 1}{ralign 9:{res:{sf: .0200377}}}{space 1}{space 1}{ralign 9:{res:{sf: .1415545}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      183}}}{space 1}
+{space 0}{space 0}{ralign 12:pre2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .9795462}}}{space 1}{space 1}{ralign 9:{res:{sf: .0200377}}}{space 1}{space 1}{ralign 9:{res:{sf: .1415545}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     8764}}}{space 1}
+
+{com}.                 eststo sum_post: estpost summarize post1-post2
+
+{txt}{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(sum_w)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(Var)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}{space 1}{ralign 9:e(min)}{space 1}{space 1}{ralign 9:e(max)}{space 1}{space 1}{ralign 9:e(sum)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:post1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .0005588}}}{space 1}{space 1}{ralign 9:{res:{sf: .0005586}}}{space 1}{space 1}{ralign 9:{res:{sf: .0236346}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        5}}}{space 1}
+{space 0}{space 0}{ralign 12:post2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .9994412}}}{space 1}{space 1}{ralign 9:{res:{sf: .0005586}}}{space 1}{space 1}{ralign 9:{res:{sf: .0236346}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     8942}}}{space 1}
+
+{com}.                 eststo sum_pol: estpost summarize post1-post2
+
+{txt}{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(sum_w)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(Var)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}{space 1}{ralign 9:e(min)}{space 1}{space 1}{ralign 9:e(max)}{space 1}{space 1}{ralign 9:e(sum)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:post1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .0005588}}}{space 1}{space 1}{ralign 9:{res:{sf: .0005586}}}{space 1}{space 1}{ralign 9:{res:{sf: .0236346}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        5}}}{space 1}
+{space 0}{space 0}{ralign 12:post2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .9994412}}}{space 1}{space 1}{ralign 9:{res:{sf: .0005586}}}{space 1}{space 1}{ralign 9:{res:{sf: .0236346}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     8942}}}{space 1}
+
+{com}.                 eststo sum_party: estpost summarize p1-p7
+
+{txt}{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(sum_w)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(Var)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}{space 1}{ralign 9:e(min)}{space 1}{space 1}{ralign 9:e(max)}{space 1}{space 1}{ralign 9:e(sum)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:p1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .2676875}}}{space 1}{space 1}{ralign 9:{res:{sf: .1960528}}}{space 1}{space 1}{ralign 9:{res:{sf: .4427785}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     2395}}}{space 1}
+{space 0}{space 0}{ralign 12:p2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .1113222}}}{space 1}{space 1}{ralign 9:{res:{sf: .0989407}}}{space 1}{space 1}{ralign 9:{res:{sf: .3145483}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      996}}}{space 1}
+{space 0}{space 0}{ralign 12:p3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .1257405}}}{space 1}{space 1}{ralign 9:{res:{sf: .1099421}}}{space 1}{space 1}{ralign 9:{res:{sf: .3315752}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     1125}}}{space 1}
+{space 0}{space 0}{ralign 12:p4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .0622555}}}{space 1}{space 1}{ralign 9:{res:{sf: .0583863}}}{space 1}{space 1}{ralign 9:{res:{sf: .2416325}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      557}}}{space 1}
+{space 0}{space 0}{ralign 12:p5}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:  .109981}}}{space 1}{space 1}{ralign 9:{res:{sf: .0978961}}}{space 1}{space 1}{ralign 9:{res:{sf: .3128836}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      984}}}{space 1}
+{space 0}{space 0}{ralign 12:p6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .1002571}}}{space 1}{space 1}{ralign 9:{res:{sf: .0902157}}}{space 1}{space 1}{ralign 9:{res:{sf: .3003592}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      897}}}{space 1}
+{space 0}{space 0}{ralign 12:p7}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .2227562}}}{space 1}{space 1}{ralign 9:{res:{sf: .1731552}}}{space 1}{space 1}{ralign 9:{res:{sf: .4161193}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     1993}}}{space 1}
+
+{com}.                 eststo sum_gender: estpost summarize f1-f2
+
+{txt}{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(sum_w)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(Var)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}{space 1}{ralign 9:e(min)}{space 1}{space 1}{ralign 9:e(max)}{space 1}{space 1}{ralign 9:e(sum)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:f1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .4603778}}}{space 1}{space 1}{ralign 9:{res:{sf: .2484578}}}{space 1}{space 1}{ralign 9:{res:{sf: .4984555}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     4119}}}{space 1}
+{space 0}{space 0}{ralign 12:f2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .5396222}}}{space 1}{space 1}{ralign 9:{res:{sf: .2484578}}}{space 1}{space 1}{ralign 9:{res:{sf: .4984555}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     4828}}}{space 1}
+
+{com}.                 eststo sum_race: estpost summarize r1-r6 
+
+{txt}{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(sum_w)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(Var)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}{space 1}{ralign 9:e(min)}{space 1}{space 1}{ralign 9:e(max)}{space 1}{space 1}{ralign 9:e(sum)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:r1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:  .766961}}}{space 1}{space 1}{ralign 9:{res:{sf: .1787518}}}{space 1}{space 1}{ralign 9:{res:{sf: .4227905}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     6862}}}{space 1}
+{space 0}{space 0}{ralign 12:r2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .0791327}}}{space 1}{space 1}{ralign 9:{res:{sf: .0728788}}}{space 1}{space 1}{ralign 9:{res:{sf: .2699608}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      708}}}{space 1}
+{space 0}{space 0}{ralign 12:r3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .0777914}}}{space 1}{space 1}{ralign 9:{res:{sf: .0717479}}}{space 1}{space 1}{ralign 9:{res:{sf: .2678581}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      696}}}{space 1}
+{space 0}{space 0}{ralign 12:r4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .0316307}}}{space 1}{space 1}{ralign 9:{res:{sf: .0306336}}}{space 1}{space 1}{ralign 9:{res:{sf: .1750247}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      283}}}{space 1}
+{space 0}{space 0}{ralign 12:r5}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .0126299}}}{space 1}{space 1}{ralign 9:{res:{sf: .0124718}}}{space 1}{space 1}{ralign 9:{res:{sf: .1116773}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      113}}}{space 1}
+{space 0}{space 0}{ralign 12:r6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .0318543}}}{space 1}{space 1}{ralign 9:{res:{sf:  .030843}}}{space 1}{space 1}{ralign 9:{res:{sf: .1756218}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      285}}}{space 1}
+
+{com}.                 eststo sum_age: estpost summarize a1-a5
+
+{txt}{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(sum_w)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(Var)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}{space 1}{ralign 9:e(min)}{space 1}{space 1}{ralign 9:e(max)}{space 1}{space 1}{ralign 9:e(sum)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:a1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .0274952}}}{space 1}{space 1}{ralign 9:{res:{sf: .0267423}}}{space 1}{space 1}{ralign 9:{res:{sf: .1635306}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      246}}}{space 1}
+{space 0}{space 0}{ralign 12:a2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .2213032}}}{space 1}{space 1}{ralign 9:{res:{sf: .1723474}}}{space 1}{space 1}{ralign 9:{res:{sf: .4151474}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     1980}}}{space 1}
+{space 0}{space 0}{ralign 12:a3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .2550576}}}{space 1}{space 1}{ralign 9:{res:{sf: .1900244}}}{space 1}{space 1}{ralign 9:{res:{sf: .4359179}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     2282}}}{space 1}
+{space 0}{space 0}{ralign 12:a4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .3772214}}}{space 1}{space 1}{ralign 9:{res:{sf: .2349517}}}{space 1}{space 1}{ralign 9:{res:{sf: .4847181}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     3375}}}{space 1}
+{space 0}{space 0}{ralign 12:a5}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .1189225}}}{space 1}{space 1}{ralign 9:{res:{sf: .1047917}}}{space 1}{space 1}{ralign 9:{res:{sf: .3237154}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     1064}}}{space 1}
+
+{com}.                 eststo sum_educ: estpost summarize e1-e8
+
+{txt}{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(sum_w)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(Var)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}{space 1}{ralign 9:e(min)}{space 1}{space 1}{ralign 9:e(max)}{space 1}{space 1}{ralign 9:e(sum)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:e1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .0280541}}}{space 1}{space 1}{ralign 9:{res:{sf: .0272701}}}{space 1}{space 1}{ralign 9:{res:{sf: .1651366}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      251}}}{space 1}
+{space 0}{space 0}{ralign 12:e2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .1370292}}}{space 1}{space 1}{ralign 9:{res:{sf: .1182654}}}{space 1}{space 1}{ralign 9:{res:{sf: .3438974}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     1226}}}{space 1}
+{space 0}{space 0}{ralign 12:e3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .1913491}}}{space 1}{space 1}{ralign 9:{res:{sf: .1547519}}}{space 1}{space 1}{ralign 9:{res:{sf: .3933852}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     1712}}}{space 1}
+{space 0}{space 0}{ralign 12:e4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .0737677}}}{space 1}{space 1}{ralign 9:{res:{sf: .0683337}}}{space 1}{space 1}{ralign 9:{res:{sf: .2614072}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      660}}}{space 1}
+{space 0}{space 0}{ralign 12:e5}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .0631497}}}{space 1}{space 1}{ralign 9:{res:{sf: .0591684}}}{space 1}{space 1}{ralign 9:{res:{sf: .2432455}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      565}}}{space 1}
+{space 0}{space 0}{ralign 12:e6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .2835587}}}{space 1}{space 1}{ralign 9:{res:{sf: .2031759}}}{space 1}{space 1}{ralign 9:{res:{sf: .4507504}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     2537}}}{space 1}
+{space 0}{space 0}{ralign 12:e7}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .1653068}}}{space 1}{space 1}{ralign 9:{res:{sf: .1379959}}}{space 1}{space 1}{ralign 9:{res:{sf:  .371478}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     1479}}}{space 1}
+{space 0}{space 0}{ralign 12:e8}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .0577847}}}{space 1}{space 1}{ralign 9:{res:{sf: .0544517}}}{space 1}{space 1}{ralign 9:{res:{sf:  .233349}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      517}}}{space 1}
+
+{com}.                 eststo sum_fb: estpost summarize fb1-fb8 fbu1-fbu2
+
+{txt}{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(sum_w)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(Var)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}{space 1}{ralign 9:e(min)}{space 1}{space 1}{ralign 9:e(max)}{space 1}{space 1}{ralign 9:e(sum)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:fb1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .2479043}}}{space 1}{space 1}{ralign 9:{res:{sf: .1864686}}}{space 1}{space 1}{ralign 9:{res:{sf: .4318201}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     2218}}}{space 1}
+{space 0}{space 0}{ralign 12:fb2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .0606907}}}{space 1}{space 1}{ralign 9:{res:{sf: .0570137}}}{space 1}{space 1}{ralign 9:{res:{sf: .2387755}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      543}}}{space 1}
+{space 0}{space 0}{ralign 12:fb3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:   .04169}}}{space 1}{space 1}{ralign 9:{res:{sf: .0399564}}}{space 1}{space 1}{ralign 9:{res:{sf: .1998909}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      373}}}{space 1}
+{space 0}{space 0}{ralign 12:fb4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .0452666}}}{space 1}{space 1}{ralign 9:{res:{sf: .0432223}}}{space 1}{space 1}{ralign 9:{res:{sf: .2078998}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      405}}}{space 1}
+{space 0}{space 0}{ralign 12:fb5}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .0985805}}}{space 1}{space 1}{ralign 9:{res:{sf: .0888723}}}{space 1}{space 1}{ralign 9:{res:{sf: .2981146}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      882}}}{space 1}
+{space 0}{space 0}{ralign 12:fb6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .1247345}}}{space 1}{space 1}{ralign 9:{res:{sf:  .109188}}}{space 1}{space 1}{ralign 9:{res:{sf: .3304361}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     1116}}}{space 1}
+{space 0}{space 0}{ralign 12:fb7}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .2057673}}}{space 1}{space 1}{ralign 9:{res:{sf: .1634454}}}{space 1}{space 1}{ralign 9:{res:{sf: .4042838}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     1841}}}{space 1}
+{space 0}{space 0}{ralign 12:fb8}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:  .175366}}}{space 1}{space 1}{ralign 9:{res:{sf:  .144629}}}{space 1}{space 1}{ralign 9:{res:{sf: .3803011}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     1569}}}{space 1}
+{space 0}{space 0}{ralign 12:fbu1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .2479043}}}{space 1}{space 1}{ralign 9:{res:{sf: .1864686}}}{space 1}{space 1}{ralign 9:{res:{sf: .4318201}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     2218}}}{space 1}
+{space 0}{space 0}{ralign 12:fbu2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .7520957}}}{space 1}{space 1}{ralign 9:{res:{sf: .1864686}}}{space 1}{space 1}{ralign 9:{res:{sf: .4318201}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     6729}}}{space 1}
+
+{com}.                 eststo sum_fbc: estpost summarize fbc1-fbc4 fbu1-fbu2
+
+{txt}{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(sum_w)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(Var)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}{space 1}{ralign 9:e(min)}{space 1}{space 1}{ralign 9:e(max)}{space 1}{space 1}{ralign 9:e(sum)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:fbc1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .2479043}}}{space 1}{space 1}{ralign 9:{res:{sf: .1864686}}}{space 1}{space 1}{ralign 9:{res:{sf: .4318201}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     2218}}}{space 1}
+{space 0}{space 0}{ralign 12:fbc2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .1023807}}}{space 1}{space 1}{ralign 9:{res:{sf: .0919092}}}{space 1}{space 1}{ralign 9:{res:{sf: .3031652}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      916}}}{space 1}
+{space 0}{space 0}{ralign 12:fbc3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .1438471}}}{space 1}{space 1}{ralign 9:{res:{sf: .1231689}}}{space 1}{space 1}{ralign 9:{res:{sf: .3509542}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     1287}}}{space 1}
+{space 0}{space 0}{ralign 12:fbc4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .5058679}}}{space 1}{space 1}{ralign 9:{res:{sf: .2499935}}}{space 1}{space 1}{ralign 9:{res:{sf: .4999935}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     4526}}}{space 1}
+{space 0}{space 0}{ralign 12:fbu1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .2479043}}}{space 1}{space 1}{ralign 9:{res:{sf: .1864686}}}{space 1}{space 1}{ralign 9:{res:{sf: .4318201}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     2218}}}{space 1}
+{space 0}{space 0}{ralign 12:fbu2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .7520957}}}{space 1}{space 1}{ralign 9:{res:{sf: .1864686}}}{space 1}{space 1}{ralign 9:{res:{sf: .4318201}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     6729}}}{space 1}
+
+{com}.                 eststo sum_tw: estpost summarize tw1-tw8 xu1-xu2
+
+{txt}{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(sum_w)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(Var)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}{space 1}{ralign 9:e(min)}{space 1}{space 1}{ralign 9:e(max)}{space 1}{space 1}{ralign 9:e(sum)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:tw1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .6901755}}}{space 1}{space 1}{ralign 9:{res:{sf: .2138572}}}{space 1}{space 1}{ralign 9:{res:{sf:  .462447}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     6175}}}{space 1}
+{space 0}{space 0}{ralign 12:tw2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .0970158}}}{space 1}{space 1}{ralign 9:{res:{sf: .0876135}}}{space 1}{space 1}{ralign 9:{res:{sf: .2959958}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      868}}}{space 1}
+{space 0}{space 0}{ralign 12:tw3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .0433665}}}{space 1}{space 1}{ralign 9:{res:{sf: .0414905}}}{space 1}{space 1}{ralign 9:{res:{sf: .2036921}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      388}}}{space 1}
+{space 0}{space 0}{ralign 12:tw4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .0310719}}}{space 1}{space 1}{ralign 9:{res:{sf: .0301098}}}{space 1}{space 1}{ralign 9:{res:{sf: .1735217}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      278}}}{space 1}
+{space 0}{space 0}{ralign 12:tw5}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .0391193}}}{space 1}{space 1}{ralign 9:{res:{sf: .0375931}}}{space 1}{space 1}{ralign 9:{res:{sf: .1938895}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      350}}}{space 1}
+{space 0}{space 0}{ralign 12:tw6}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .0314072}}}{space 1}{space 1}{ralign 9:{res:{sf: .0304242}}}{space 1}{space 1}{ralign 9:{res:{sf: .1744252}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      281}}}{space 1}
+{space 0}{space 0}{ralign 12:tw7}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .0342014}}}{space 1}{space 1}{ralign 9:{res:{sf: .0330354}}}{space 1}{space 1}{ralign 9:{res:{sf: .1817563}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      306}}}{space 1}
+{space 0}{space 0}{ralign 12:tw8}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .0336426}}}{space 1}{space 1}{ralign 9:{res:{sf: .0325144}}}{space 1}{space 1}{ralign 9:{res:{sf: .1803174}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      301}}}{space 1}
+{space 0}{space 0}{ralign 12:xu1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .6901755}}}{space 1}{space 1}{ralign 9:{res:{sf: .2138572}}}{space 1}{space 1}{ralign 9:{res:{sf:  .462447}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     6175}}}{space 1}
+{space 0}{space 0}{ralign 12:xu2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .3098245}}}{space 1}{space 1}{ralign 9:{res:{sf: .2138572}}}{space 1}{space 1}{ralign 9:{res:{sf:  .462447}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     2772}}}{space 1}
+
+{com}.                 eststo sum_xfc: estpost summarize xfc1-xfc4 xu1-xu2
+
+{txt}{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(sum_w)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(Var)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}{space 1}{ralign 9:e(min)}{space 1}{space 1}{ralign 9:e(max)}{space 1}{space 1}{ralign 9:e(sum)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:xfc1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .6901755}}}{space 1}{space 1}{ralign 9:{res:{sf: .2138572}}}{space 1}{space 1}{ralign 9:{res:{sf:  .462447}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     6175}}}{space 1}
+{space 0}{space 0}{ralign 12:xfc2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .1403823}}}{space 1}{space 1}{ralign 9:{res:{sf: .1206886}}}{space 1}{space 1}{ralign 9:{res:{sf: .3474026}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     1256}}}{space 1}
+{space 0}{space 0}{ralign 12:xfc3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .0701911}}}{space 1}{space 1}{ralign 9:{res:{sf: .0652716}}}{space 1}{space 1}{ralign 9:{res:{sf: .2554831}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      628}}}{space 1}
+{space 0}{space 0}{ralign 12:xfc4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .0992511}}}{space 1}{space 1}{ralign 9:{res:{sf: .0894103}}}{space 1}{space 1}{ralign 9:{res:{sf: .2990156}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:      888}}}{space 1}
+{space 0}{space 0}{ralign 12:xu1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .6901755}}}{space 1}{space 1}{ralign 9:{res:{sf: .2138572}}}{space 1}{space 1}{ralign 9:{res:{sf:  .462447}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     6175}}}{space 1}
+{space 0}{space 0}{ralign 12:xu2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .3098245}}}{space 1}{space 1}{ralign 9:{res:{sf: .2138572}}}{space 1}{space 1}{ralign 9:{res:{sf:  .462447}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     2772}}}{space 1}
+
+{com}.                 eststo sum_pol: estpost summarize pol1-pol5
+
+{txt}{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(sum_w)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(Var)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}{space 1}{ralign 9:e(min)}{space 1}{space 1}{ralign 9:e(max)}{space 1}{space 1}{ralign 9:e(sum)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:pol1}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .2517045}}}{space 1}{space 1}{ralign 9:{res:{sf: .1883704}}}{space 1}{space 1}{ralign 9:{res:{sf: .4340166}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     2252}}}{space 1}
+{space 0}{space 0}{ralign 12:pol2}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .4208114}}}{space 1}{space 1}{ralign 9:{res:{sf: .2437564}}}{space 1}{space 1}{ralign 9:{res:{sf: .4937169}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     3765}}}{space 1}
+{space 0}{space 0}{ralign 12:pol3}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .1855371}}}{space 1}{space 1}{ralign 9:{res:{sf: .1511299}}}{space 1}{space 1}{ralign 9:{res:{sf: .3887544}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     1660}}}{space 1}
+{space 0}{space 0}{ralign 12:pol4}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .1364703}}}{space 1}{space 1}{ralign 9:{res:{sf: .1178593}}}{space 1}{space 1}{ralign 9:{res:{sf: .3433065}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:     1221}}}{space 1}
+{space 0}{space 0}{ralign 12:pol5}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .0054767}}}{space 1}{space 1}{ralign 9:{res:{sf: .0054473}}}{space 1}{space 1}{ralign 9:{res:{sf: .0738059}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:       49}}}{space 1}
+
+{com}. 
+. **********************************************
+. * TABLE 1: Demographics (Non-Political)
+. **********************************************
+. 
+.                 eststo clear
+{txt}
+{com}.                 estpost summarize age female educ, detail
+
+{txt}{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(sum_w)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(Var)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}{space 1}{ralign 9:e(skewn~)}{space 1}{space 1}{ralign 9:e(kurto~)}{space 1}{space 1}{ralign 9:e(sum)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:age}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:  53.7426}}}{space 1}{space 1}{ralign 9:{res:{sf: 281.8002}}}{space 1}{space 1}{ralign 9:{res:{sf:  16.7869}}}{space 1}{space 1}{ralign 9:{res:{sf: -.184696}}}{space 1}{space 1}{ralign 9:{res:{sf: 1.914729}}}{space 1}{space 1}{ralign 9:{res:{sf:   480835}}}{space 1}
+{space 0}{space 0}{ralign 12:female}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .5396222}}}{space 1}{space 1}{ralign 9:{res:{sf: .2484578}}}{space 1}{space 1}{ralign 9:{res:{sf: .4984555}}}{space 1}{space 1}{ralign 9:{res:{sf:-.1589889}}}{space 1}{space 1}{ralign 9:{res:{sf: 1.025277}}}{space 1}{space 1}{ralign 9:{res:{sf:     4828}}}{space 1}
+{space 0}{space 0}{ralign 12:educ}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: 4.807757}}}{space 1}{space 1}{ralign 9:{res:{sf: 3.949625}}}{space 1}{space 1}{ralign 9:{res:{sf: 1.987366}}}{space 1}{space 1}{ralign 9:{res:{sf:-.2101027}}}{space 1}{space 1}{ralign 9:{res:{sf:  1.72355}}}{space 1}{space 1}{ralign 9:{res:{sf:    43015}}}{space 1}
+
+{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(min)}{space 1}{space 1}{ralign 9:e(max)}{space 1}{space 1}{ralign 9:e(p1)}{space 1}{space 1}{ralign 9:e(p5)}{space 1}{space 1}{ralign 9:e(p10)}{space 1}{space 1}{ralign 9:e(p25)}{space 1}{space 1}{ralign 9:e(p50)}{space 1}{space 1}{ralign 9:e(p75)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:age}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       18}}}{space 1}{space 1}{ralign 9:{res:{sf:       80}}}{space 1}{space 1}{ralign 9:{res:{sf:       20}}}{space 1}{space 1}{ralign 9:{res:{sf:       26}}}{space 1}{space 1}{ralign 9:{res:{sf:       30}}}{space 1}{space 1}{ralign 9:{res:{sf:       40}}}{space 1}{space 1}{ralign 9:{res:{sf:       55}}}{space 1}{space 1}{ralign 9:{res:{sf:       68}}}{space 1}
+{space 0}{space 0}{ralign 12:female}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}
+{space 0}{space 0}{ralign 12:educ}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        8}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        2}}}{space 1}{space 1}{ralign 9:{res:{sf:        2}}}{space 1}{space 1}{ralign 9:{res:{sf:        3}}}{space 1}{space 1}{ralign 9:{res:{sf:        6}}}{space 1}{space 1}{ralign 9:{res:{sf:        6}}}{space 1}
+
+{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(p90)}{space 1}{space 1}{ralign 9:e(p95)}{space 1}{space 1}{ralign 9:e(p99)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:age}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       76}}}{space 1}{space 1}{ralign 9:{res:{sf:       80}}}{space 1}{space 1}{ralign 9:{res:{sf:       80}}}{space 1}
+{space 0}{space 0}{ralign 12:female}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}
+{space 0}{space 0}{ralign 12:educ}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        7}}}{space 1}{space 1}{ralign 9:{res:{sf:        8}}}{space 1}{space 1}{ralign 9:{res:{sf:        8}}}{space 1}
+
+{com}.                 esttab . using "./results/tab1_demographics.tex", replace ///
+>                         cells("count(fmt(0)) mean(fmt(2)) sd(fmt(2)) min(fmt(0)) max(fmt(0))") ///
+>                         title("Sample Demographics") ///
+>                         label ///
+>                         collabels("N" "Mean" "SD" "Min" "Max") ///
+>                         noobs ///
+>                         nomtitle ///
+>                         booktabs ///
+>                         varlabels(age "Age (years)" ///
+>                                           female "Female" ///
+>                                           educ "Education Level (1-8)") ///
+>                         nonotes ///
+>                         addnotes("Sample: 9,093 respondents from ANES 2020 and 2024 (2020: 5,518; 2024: 3,575)." ///
+>                                  "Female is binary indicator (1=female, 0=male)." ///
+>                                  "Education: 1=less than high school, 8=professional/doctoral degree." ///
+>                                  "Mean education (4.81) corresponds to some college." ///
+>                                  "Race/Ethnicity: 76.7\% White, 11.8\% Black, 6.2\% Hispanic, 3.5\% Asian, 1.9\% Other.")
+{res}{txt}(output written to {browse  `"./results/tab1_demographics.tex"'})
+
+{com}.  
+. ***********************************************
+. * TABLE 2: Political Attitudes and Engagement
+. **********************************************
+. 
+.                 eststo clear
+{txt}
+{com}.                 estpost summarize party_id dem_thermo rep_thermo aff_polar pol_attention, detail
+
+{txt}{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(sum_w)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(Var)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}{space 1}{ralign 9:e(skewn~)}{space 1}{space 1}{ralign 9:e(kurto~)}{space 1}{space 1}{ralign 9:e(sum)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:party_id}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: 3.827316}}}{space 1}{space 1}{ralign 9:{res:{sf: 5.466824}}}{space 1}{space 1}{ralign 9:{res:{sf: 2.338124}}}{space 1}{space 1}{ralign 9:{res:{sf:  .118897}}}{space 1}{space 1}{ralign 9:{res:{sf: 1.453091}}}{space 1}{space 1}{ralign 9:{res:{sf:    34243}}}{space 1}
+{space 0}{space 0}{ralign 12:dem_thermo}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: 46.14921}}}{space 1}{space 1}{ralign 9:{res:{sf: 1096.562}}}{space 1}{space 1}{ralign 9:{res:{sf: 33.11437}}}{space 1}{space 1}{ralign 9:{res:{sf:-.0908816}}}{space 1}{space 1}{ralign 9:{res:{sf: 1.645733}}}{space 1}{space 1}{ralign 9:{res:{sf:   412897}}}{space 1}
+{space 0}{space 0}{ralign 12:rep_thermo}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: 42.49681}}}{space 1}{space 1}{ralign 9:{res:{sf:  1092.16}}}{space 1}{space 1}{ralign 9:{res:{sf: 33.04785}}}{space 1}{space 1}{ralign 9:{res:{sf: .1754668}}}{space 1}{space 1}{ralign 9:{res:{sf:  1.70284}}}{space 1}{space 1}{ralign 9:{res:{sf:   380219}}}{space 1}
+{space 0}{space 0}{ralign 12:aff_polar}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: 54.36772}}}{space 1}{space 1}{ralign 9:{res:{sf: 840.8292}}}{space 1}{space 1}{ralign 9:{res:{sf: 28.99706}}}{space 1}{space 1}{ralign 9:{res:{sf:-.2425661}}}{space 1}{space 1}{ralign 9:{res:{sf: 2.117563}}}{space 1}{space 1}{ralign 9:{res:{sf:   486428}}}{space 1}
+{space 0}{space 0}{ralign 12:pol_attent~n}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: 2.223203}}}{space 1}{space 1}{ralign 9:{res:{sf: .9827032}}}{space 1}{space 1}{ralign 9:{res:{sf: .9913139}}}{space 1}{space 1}{ralign 9:{res:{sf: .5178539}}}{space 1}{space 1}{ralign 9:{res:{sf: 2.400703}}}{space 1}{space 1}{ralign 9:{res:{sf:    19891}}}{space 1}
+
+{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(min)}{space 1}{space 1}{ralign 9:e(max)}{space 1}{space 1}{ralign 9:e(p1)}{space 1}{space 1}{ralign 9:e(p5)}{space 1}{space 1}{ralign 9:e(p10)}{space 1}{space 1}{ralign 9:e(p25)}{space 1}{space 1}{ralign 9:e(p50)}{space 1}{space 1}{ralign 9:e(p75)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:party_id}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        7}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        3}}}{space 1}{space 1}{ralign 9:{res:{sf:        6}}}{space 1}
+{space 0}{space 0}{ralign 12:dem_thermo}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       -8}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:       15}}}{space 1}{space 1}{ralign 9:{res:{sf:       50}}}{space 1}{space 1}{ralign 9:{res:{sf:       70}}}{space 1}
+{space 0}{space 0}{ralign 12:rep_thermo}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       -8}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:       15}}}{space 1}{space 1}{ralign 9:{res:{sf:       40}}}{space 1}{space 1}{ralign 9:{res:{sf:       70}}}{space 1}
+{space 0}{space 0}{ralign 12:aff_polar}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:       10}}}{space 1}{space 1}{ralign 9:{res:{sf:       30}}}{space 1}{space 1}{ralign 9:{res:{sf:       55}}}{space 1}{space 1}{ralign 9:{res:{sf:       75}}}{space 1}
+{space 0}{space 0}{ralign 12:pol_attent~n}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        5}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        2}}}{space 1}{space 1}{ralign 9:{res:{sf:        3}}}{space 1}
+
+{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(p90)}{space 1}{space 1}{ralign 9:e(p95)}{space 1}{space 1}{ralign 9:e(p99)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:party_id}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        7}}}{space 1}{space 1}{ralign 9:{res:{sf:        7}}}{space 1}{space 1}{ralign 9:{res:{sf:        7}}}{space 1}
+{space 0}{space 0}{ralign 12:dem_thermo}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       85}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
+{space 0}{space 0}{ralign 12:rep_thermo}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       85}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
+{space 0}{space 0}{ralign 12:aff_polar}{space 1}{c |}{space 1}{ralign 9:{res:{sf:       90}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}{space 1}{ralign 9:{res:{sf:      100}}}{space 1}
+{space 0}{space 0}{ralign 12:pol_attent~n}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        4}}}{space 1}{space 1}{ralign 9:{res:{sf:        4}}}{space 1}{space 1}{ralign 9:{res:{sf:        4}}}{space 1}
+
+{com}.                 esttab . using "./results/tab2_political.tex", replace ///
+>                         cells("count(fmt(0)) mean(fmt(2)) sd(fmt(2)) min(fmt(0)) max(fmt(0))") ///
+>                         title("Political Attitudes and Engagement") ///
+>                         label ///
+>                         collabels("N" "Mean" "SD" "Min" "Max") ///
+>                         noobs ///
+>                         nomtitle ///
+>                         booktabs ///
+>                         varlabels(party_id "Party Identification (1-7)" ///
+>                                           dem_thermo "Democratic Party Thermometer (0-100)" ///
+>                                           rep_thermo "Republican Party Thermometer (0-100)" ///
+>                                           aff_polar "Affective Polarization" ///
+>                                           pol_attention "Political Attention (1-5)") ///
+>                         nonotes ///
+>                         addnotes("Sample: 9,093 respondents from ANES 2020 and 2024." ///
+>                                          "Party ID: 1=Strong Democrat, 4=Independent, 7=Strong Republican." ///
+>                                          "Mean party ID (3.84) indicates slight Democratic lean in sample." ///
+>                                          "Thermometers: 0=coldest feelings, 100=warmest feelings toward party." ///
+>                                          "Affective polarization: absolute difference between party thermometers." ///
+>                                          "Political attention: 1=always pay attention, 5=never. Mean (2.22) = most of the time.")
+{res}{txt}(output written to {browse  `"./results/tab2_political.tex"'})
+
+{com}.  
+. **********************************************
+. * TABLE 3: Social Media Usage
+. **********************************************
+. 
+.                 eststo clear
+{txt}
+{com}. 
+.                 estpost summarize voted fb_use x_use fb_freq_cat x_freq_cat, detail
+
+{txt}{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(count)}{space 1}{space 1}{ralign 9:e(sum_w)}{space 1}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(Var)}{space 1}{space 1}{ralign 9:e(sd)}{space 1}{space 1}{ralign 9:e(skewn~)}{space 1}{space 1}{ralign 9:e(kurto~)}{space 1}{space 1}{ralign 9:e(sum)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:voted}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .9882642}}}{space 1}{space 1}{ralign 9:{res:{sf: .0115993}}}{space 1}{space 1}{ralign 9:{res:{sf: .1077003}}}{space 1}{space 1}{ralign 9:{res:{sf:-9.067602}}}{space 1}{space 1}{ralign 9:{res:{sf:  83.2214}}}{space 1}{space 1}{ralign 9:{res:{sf:     8842}}}{space 1}
+{space 0}{space 0}{ralign 12:fb_use}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .7520957}}}{space 1}{space 1}{ralign 9:{res:{sf: .1864686}}}{space 1}{space 1}{ralign 9:{res:{sf: .4318201}}}{space 1}{space 1}{ralign 9:{res:{sf:-1.167661}}}{space 1}{space 1}{ralign 9:{res:{sf: 2.363432}}}{space 1}{space 1}{ralign 9:{res:{sf:     6729}}}{space 1}
+{space 0}{space 0}{ralign 12:x_use}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .3098245}}}{space 1}{space 1}{ralign 9:{res:{sf: .2138572}}}{space 1}{space 1}{ralign 9:{res:{sf:  .462447}}}{space 1}{space 1}{ralign 9:{res:{sf: .8225207}}}{space 1}{space 1}{ralign 9:{res:{sf:  1.67654}}}{space 1}{space 1}{ralign 9:{res:{sf:     2772}}}{space 1}
+{space 0}{space 0}{ralign 12:fb_freq_cat}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: 1.907679}}}{space 1}{space 1}{ralign 9:{res:{sf: 1.591521}}}{space 1}{space 1}{ralign 9:{res:{sf: 1.261555}}}{space 1}{space 1}{ralign 9:{res:{sf:-.5669946}}}{space 1}{space 1}{ralign 9:{res:{sf: 1.608349}}}{space 1}{space 1}{ralign 9:{res:{sf:    17068}}}{space 1}
+{space 0}{space 0}{ralign 12:x_freq_cat}{space 1}{c |}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf:     8947}}}{space 1}{space 1}{ralign 9:{res:{sf: .5785179}}}{space 1}{space 1}{ralign 9:{res:{sf: .9798336}}}{space 1}{space 1}{ralign 9:{res:{sf: .9898654}}}{space 1}{space 1}{ralign 9:{res:{sf:  1.53413}}}{space 1}{space 1}{ralign 9:{res:{sf: 3.938833}}}{space 1}{space 1}{ralign 9:{res:{sf:     5176}}}{space 1}
+
+{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(min)}{space 1}{space 1}{ralign 9:e(max)}{space 1}{space 1}{ralign 9:e(p1)}{space 1}{space 1}{ralign 9:e(p5)}{space 1}{space 1}{ralign 9:e(p10)}{space 1}{space 1}{ralign 9:e(p25)}{space 1}{space 1}{ralign 9:e(p50)}{space 1}{space 1}{ralign 9:e(p75)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:voted}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}
+{space 0}{space 0}{ralign 12:fb_use}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}
+{space 0}{space 0}{ralign 12:x_use}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}
+{space 0}{space 0}{ralign 12:fb_freq_cat}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        3}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        3}}}{space 1}{space 1}{ralign 9:{res:{sf:        3}}}{space 1}
+{space 0}{space 0}{ralign 12:x_freq_cat}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        3}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        0}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}
+
+{space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(p90)}{space 1}{space 1}{ralign 9:e(p95)}{space 1}{space 1}{ralign 9:e(p99)}{space 1}
+{space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
+{space 0}{space 0}{ralign 12:voted}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}
+{space 0}{space 0}{ralign 12:fb_use}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}
+{space 0}{space 0}{ralign 12:x_use}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}{space 1}{ralign 9:{res:{sf:        1}}}{space 1}
+{space 0}{space 0}{ralign 12:fb_freq_cat}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        3}}}{space 1}{space 1}{ralign 9:{res:{sf:        3}}}{space 1}{space 1}{ralign 9:{res:{sf:        3}}}{space 1}
+{space 0}{space 0}{ralign 12:x_freq_cat}{space 1}{c |}{space 1}{ralign 9:{res:{sf:        2}}}{space 1}{space 1}{ralign 9:{res:{sf:        3}}}{space 1}{space 1}{ralign 9:{res:{sf:        3}}}{space 1}
+
+{com}. 
+.                 esttab . using "./results/tab3_socialmedia.tex", replace ///
+>                         cells("count(fmt(0)) mean(fmt(2)) sd(fmt(2)) min(fmt(0)) max(fmt(0))") ///
+>                         title("Political Participation and Social Media Usage") ///
+>                         label ///
+>                         collabels("N" "Mean" "SD" "Min" "Max") ///
+>                         noobs ///
+>                         nomtitle ///
+>                         booktabs ///
+>                         varlabels(voted "Voted in Presidential Election" ///
+>                                           fb_use "Uses Facebook" ///
+>                                           x_use "Uses X (Twitter)" ///
+>                                           fb_freq_cat "Facebook Usage Frequency (0-3)" ///
+>                                           x_freq_cat "X Usage Frequency (0-3)") ///
+>                         refcat(voted "\textit{c -(}Outcome Variable{c )-}" ///
+>                                    fb_use "\textit{c -(}Social Media Usage{c )-}", nolabel) ///
+>                         nonotes ///
+>                         addnotes("Sample: 9,093 respondents from ANES 2020 and 2024." ///
+>                                          "Voted and platform usage (fb\_use, x\_use) are binary indicators." ///
+>                                          "98.8\% of sample voted (N=8,985), compared to 66\% national turnout." ///
+>                                          "75.1\% use Facebook; 30.8\% use X." ///
+>                                          "Usage frequency categories: 0=not at all, 1=infrequent (less than weekly)," ///
+>                                          "2=weekly (1-4 times/week), 3=daily or more (once+ per day)." ///
+>                                          "Mean FB frequency (1.90) = between infrequent and weekly." ///
+>                                          "Mean X frequency (0.58) = between non-user and infrequent.")
+{res}{txt}(output written to {browse  `"./results/tab3_socialmedia.tex"'})
+
+{com}.                                                         
+. **********************************************
+. * FIGURE: Facebook usage - collapsed categories
+. **********************************************
+.                 
+.                 graph bar (percent), over(fb_freq_cat, label(labsize(small))) ///
+>                         title("Facebook Usage Frequency", size(medium)) ///
+>                         subtitle("ANES 2020-2024", size(small)) ///
+>                         ytitle("Percent of Sample") ///
+>                         ylabel(0(10)60) ///
+>                         bar(1, color(navy)) ///
+>                         blabel(total, format(%3.1f) position(outside)) ///
+>                         note("Source: American National Election Studies 2020, 2024", size(vsmall))
+{res}{txt}
+{com}.                         graph export "./figures/facebook_frequency.png", replace width(800) height(600)
+{txt}{p 0 4 2}
+file {bf}
+./figures/facebook_frequency.png{rm}
+saved as
+PNG
+format
+{p_end}
+
+{com}.                         
+. **********************************************
+. * FIGURE: X usage - collapsed categories  
+. **********************************************
+. 
+.                 graph bar (percent), over(x_freq_cat, label(labsize(small))) ///
+>                         title("X (Twitter) Usage Frequency", size(medium)) ///
+>                         subtitle("ANES 2020-2024", size(small)) ///
+>                         ytitle("Percent of Sample") ///
+>                         ylabel(0(10)70) ///
+>                         bar(1, color(black)) ///
+>                         blabel(total, format(%3.1f) position(outside)) ///
+>                         note("Source: American National Election Studies 2020, 2024", size(vsmall))
+{res}{txt}
+{com}.                         graph export "./figures/x_frequency.png", replace width(800) height(600)
+{txt}{p 0 4 2}
+file {bf}
+./figures/x_frequency.png{rm}
+saved as
+PNG
+format
+{p_end}
+
+{com}.                         
+. **********************************************
+. * FIGURE: Pol Attention/Interest usage - collapsed categories  
+. **********************************************
+. 
+.                 graph bar (percent), over(pol_attention, label(labsize(vsmall))) /// pol attention
+>                         title("Political Attention/Interest", size(medium)) ///
+>                         subtitle("ANES 2020-2024", size(small)) ///
+>                         ylabel(0(10)50) ///
+>                         bar(1, color(forest_green)) ///
+>                         blabel(total, format(%3.1f) position(outside) size(small)) ///
+>                         note("Source: American National Election Studies 2020, 2024")
+{res}{txt}
+{com}.                         graph export "./figures/political_attention.png", replace width(800) height(600)
+{txt}{p 0 4 2}
+file {bf}
+./figures/political_attention.png{rm}
+saved as
+PNG
+format
+{p_end}
+
+{com}. 
+.  capture log close 
+{smcl}
+{com}{sf}{ul off}

@@ -1,0 +1,20 @@
+\begin{table}[htbp]\centering
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\caption{Effect of Social Media Usage on Voting (Average Marginal Effects)}
+\begin{tabular}{l*{3}{c}}
+\toprule
+            &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}\\
+            &\multicolumn{1}{c}{Base}&\multicolumn{1}{c}{Political}&\multicolumn{1}{c}{Full}\\
+\midrule
+Facebook User&       0.001         &       0.001         &       0.002         \\
+            &     (0.004)         &     (0.005)         &     (0.005)         \\
+\addlinespace
+X User      &       0.014\sym{**} &       0.014\sym{**} &       0.017\sym{**} \\
+            &     (0.006)         &     (0.007)         &     (0.008)         \\
+\midrule
+Observations&       8,947         &       8,947         &       7,255         \\
+\bottomrule
+\multicolumn{4}{l}{\footnotesize Standard errors in parentheses. * p$<$0.10, ** p$<$0.05, *** p$<$0.01. Base model includes year fixed effect. Political controls add political attention and party identification. Full controls add education, race, state fixed effects, age, and sex.}\\
+\multicolumn{4}{l}{\footnotesize \sym{*} \(p<0.10\), \sym{**} \(p<0.05\), \sym{***} \(p<0.01\)}\\
+\end{tabular}
+\end{table}

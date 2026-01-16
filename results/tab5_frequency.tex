@@ -1,0 +1,44 @@
+\begin{table}[htbp]\centering
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\caption{Social Media Usage Frequency and Voter Turnout}
+\begin{tabular}{l*{2}{c}}
+\toprule
+            &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}\\
+            &\multicolumn{1}{c}{Political Controls}&\multicolumn{1}{c}{Full Controls}\\
+\midrule
+0.fb\_freq\_cat&       0.000         &       0.000         \\
+            &         (.)         &         (.)         \\
+\addlinespace
+Facebook: Infrequent&       0.011\sym{**} &       0.013\sym{**} \\
+            &     (0.005)         &     (0.006)         \\
+\addlinespace
+Facebook: Weekly&       0.005         &       0.007         \\
+            &     (0.006)         &     (0.006)         \\
+\addlinespace
+Facebook: Daily+&      -0.002         &      -0.001         \\
+            &     (0.005)         &     (0.006)         \\
+\addlinespace
+0.x\_freq\_cat&       0.000         &       0.000         \\
+            &         (.)         &         (.)         \\
+\addlinespace
+X: Infrequent&       0.016\sym{***}&       0.020\sym{***}\\
+            &     (0.003)         &     (0.004)         \\
+\addlinespace
+X: Weekly   &       0.015\sym{***}&       0.018\sym{***}\\
+            &     (0.004)         &     (0.005)         \\
+\addlinespace
+X: Daily+   &       0.004         &       0.004         \\
+            &     (0.009)         &     (0.011)         \\
+\midrule
+Observations&       8,947         &       7,255         \\
+\bottomrule
+\multicolumn{3}{l}{\footnotesize Standard errors in parentheses}\\
+\multicolumn{3}{l}{\footnotesize Average marginal effects from logit models.}\\
+\multicolumn{3}{l}{\footnotesize Reference category: Non-users of each platform.}\\
+\multicolumn{3}{l}{\footnotesize Infrequent = less than weekly; Weekly = 1-4 times/week; Daily+ = once or more per day.}\\
+\multicolumn{3}{l}{\footnotesize \textit{Political Controls}: year FE, political attention, party identification.}\\
+\multicolumn{3}{l}{\footnotesize \textit{Full Controls}: adds age, sex, education, race, and state fixed effects.}\\
+\multicolumn{3}{l}{\footnotesize Standard errors in parentheses. * p$<$0.10, ** p$<$0.05, *** p$<$0.01}\\
+\multicolumn{3}{l}{\footnotesize \sym{*} \(p<0.10\), \sym{**} \(p<0.05\), \sym{***} \(p<0.01\)}\\
+\end{tabular}
+\end{table}
